@@ -646,17 +646,16 @@ h1 {
   grid-template-columns: repeat(2, 1fr);
   gap: 0;
   border: 1px solid rgba(232,230,224,0.08);
-  margin: 48px auto 0;
-  max-width: 1000px;
+  margin: 48px 52px 80px;
 }
 .community-panel {
-  border: 1px solid rgba(232,230,224,0.08);
+  outline: 1px solid rgba(232,230,224,0.08);
   padding: 40px 36px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 220px;
-  transition: border-color 0.3s ease, background 0.3s ease;
+  transition: background 0.3s ease;
   opacity: 0; transform: translateY(20px);
 }
 .community-panel:hover { background: rgba(232,230,224,0.04); }
@@ -700,6 +699,216 @@ h1 {
   border-color: #FF6B35;
   color: #FF6B35;
   transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+/* ═══════════════════════════
+   BLOG SECTION
+═══════════════════════════ */
+#blog {
+  background: #0E0E0E;
+  position: relative; z-index: 50;
+  margin-top: 80px;
+}
+#blog::before {
+  content: '';
+  position: absolute;
+  top: -120px; left: 0; right: 0;
+  height: 120px;
+  background: #0E0E0E;
+  z-index: -1;
+}
+.blog-divider {
+  position: relative;
+  width: 0; height: 1px;
+  background: #FF6B35;
+  transition: width 0.8s ease-out;
+  margin: 0; padding: 0;
+  display: block; left: 0;
+}
+.blog-divider.expanded { width: 100vw; }
+.blog-inner { padding: 80px 52px; }
+.blog-eyebrow {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px; font-weight: 400;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(232,230,224,0.35);
+  display: block; margin-bottom: 20px;
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.6s ease 0s, transform 0.6s ease 0s;
+}
+.blog-eyebrow.in { opacity: 1; transform: none; }
+.blog-headline {
+  font-family: 'Geist', sans-serif;
+  font-size: 52px; font-weight: 500;
+  line-height: 1.02; letter-spacing: -0.02em;
+  color: #ffffff; margin-bottom: 56px;
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s;
+}
+.blog-headline.in { opacity: 1; transform: none; }
+/* Section labels */
+.blog-section-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px; font-weight: 400;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(232,230,224,0.35);
+  display: block; margin-bottom: 16px;
+}
+/* Feed */
+.blog-feed { border-top: 1px dashed rgba(232,230,224,0.1); }
+.blog-row {
+  display: block;
+  border-bottom: 1px dashed rgba(232,230,224,0.1);
+  padding: 28px 0;
+  text-decoration: none; color: inherit;
+  cursor: pointer;
+  transition: padding-left 0.2s ease;
+  opacity: 0; transform: translateY(16px);
+}
+.blog-row:hover { padding-left: 6px; }
+.blog-row.in { opacity: 1; transform: none; }
+.blog-row-top {
+  display: flex; gap: 16px; align-items: center;
+  margin-bottom: 10px;
+}
+.blog-row-date {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px; letter-spacing: 0.1em;
+  color: rgba(232,230,224,0.28);
+}
+.blog-row-tag {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: #FF6B35;
+}
+.blog-row-bottom {
+  display: flex; align-items: baseline;
+  justify-content: space-between; gap: 40px;
+}
+.blog-row-title {
+  font-family: 'Geist', sans-serif;
+  font-size: 28px; font-weight: 500;
+  color: rgba(232,230,224,0.9); line-height: 1.2;
+  flex: 1;
+  transition: color 0.2s;
+}
+.blog-row:hover .blog-row-title { color: rgba(232,230,224,1); }
+.blog-row-desc {
+  font-family: 'Geist', sans-serif;
+  font-size: 13px;
+  color: rgba(232,230,224,0.4); line-height: 1.6;
+  max-width: 360px; text-align: right; flex-shrink: 0;
+}
+.blog-row-arrow {
+  font-family: 'Geist Mono', monospace;
+  font-size: 20px; font-weight: 500;
+  color: rgba(255,107,53,0.5);
+  margin-left: 24px; flex-shrink: 0;
+  transition: color 0.2s;
+}
+.blog-row:hover .blog-row-arrow { color: #FF6B35; }
+/* View all */
+.blog-view-all {
+  display: block;
+  padding: 20px 0;
+  text-decoration: none;
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(232,230,224,0.35);
+  transition: color 0.2s;
+  opacity: 0; transform: translateY(16px);
+}
+.blog-view-all:hover { color: rgba(232,230,224,0.7); }
+.blog-view-all.in { opacity: 1; transform: none; }
+/* Podcast grid */
+.blog-podcast-wrap {
+  margin-top: 64px;
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.6s ease 0.7s, transform 0.6s ease 0.7s;
+}
+.blog-podcast-wrap.in { opacity: 1; transform: none; }
+.blog-podcast-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid rgba(232,230,224,0.08);
+}
+.blog-pod-left {
+  border-right: 1px solid rgba(232,230,224,0.08);
+  background: transparent;
+  padding: 32px;
+  display: flex; flex-direction: row; gap: 24px; align-items: flex-start;
+}
+.blog-pod-right-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.blog-pod-left-text {
+  display: flex; flex-direction: column; justify-content: flex-start; flex: 1;
+}
+.blog-pod-thumb {
+  width: 180px; flex-shrink: 0;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  display: block;
+  background: #111;
+}
+.blog-pod-ep-title {
+  font-family: 'Geist', sans-serif;
+  font-size: 15px; font-weight: 500;
+  color: #ffffff; line-height: 1.3; margin-bottom: 8px;
+}
+.blog-pod-ep-title-sm {
+  font-family: 'Geist', sans-serif;
+  font-size: 15px; font-weight: 500;
+  color: #ffffff; line-height: 1.3; margin-bottom: 6px;
+}
+.blog-pod-meta {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px; letter-spacing: 0.1em;
+  color: rgba(232,230,224,0.3); display: block; margin-bottom: 16px;
+}
+.blog-pod-meta-sm {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px; letter-spacing: 0.1em;
+  color: rgba(232,230,224,0.3); display: block; margin-bottom: 12px;
+}
+.blog-pod-cta {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px; letter-spacing: 0.1em;
+  color: rgba(232,230,224,0.4);
+  text-decoration: none; display: block;
+  transition: color 0.2s;
+}
+.blog-pod-cta:hover { color: #FF6B35; }
+.blog-pod-right-top {
+  border-right: 1px solid rgba(232,230,224,0.08);
+  background: transparent;
+  padding: 32px;
+  display: flex; flex-direction: column;
+  justify-content: flex-start; align-items: flex-start;
+  align-self: start;
+}
+.blog-pod-right-bottom {
+  background: transparent;
+  padding: 32px;
+  display: flex; flex-direction: column;
+  justify-content: flex-start; align-items: flex-start;
+  align-self: start;
+}
+.blog-pod-view-all {
+  font-family: 'Geist Mono', monospace;
+  font-size: 14px; letter-spacing: 0.12em;
+  color: rgba(232,230,224,0.5);
+  text-decoration: none; display: block;
+  transition: color 0.2s;
+}
+.blog-pod-view-all:hover { color: #FF6B35; }
+.blog-pod-view-sub {
+  font-family: 'Geist', sans-serif;
+  font-size: 12px;
+  color: rgba(232,230,224,0.3);
+  margin-top: 8px; display: block;
 }
 
 /* ═══════════════════════════
@@ -1284,6 +1493,90 @@ h1 {
 
 </section>
 
+<!-- BLOG SECTION -->
+<section id="blog">
+
+  <div class="blog-divider"></div>
+
+  <div class="blog-inner">
+    <span class="blog-eyebrow">Latest from Quantus</span>
+    <h2 class="blog-headline">Stay ahead of the quantum shift.</h2>
+
+    <span class="blog-section-label">Blogs</span>
+    <div class="blog-feed">
+      <a href="https://quantus.network/blog" target="_blank" class="blog-row">
+        <div class="blog-row-top">
+          <span class="blog-row-date">MAR 07</span>
+          <span class="blog-row-tag">PROTOCOL</span>
+        </div>
+        <div class="blog-row-bottom">
+          <span class="blog-row-title">Wormhole Transactions</span>
+          <span class="blog-row-desc">Weekly update covering wormhole transactions, private block rewards for miners, and consensus bug fixes.</span>
+          <span class="blog-row-arrow">→</span>
+        </div>
+      </a>
+      <a href="https://quantus.network/blog" target="_blank" class="blog-row">
+        <div class="blog-row-top">
+          <span class="blog-row-date">FEB 27</span>
+          <span class="blog-row-tag">WALLET</span>
+        </div>
+        <div class="blog-row-bottom">
+          <span class="blog-row-title">The Wallet Should Be Simple</span>
+          <span class="blog-row-desc">Covering the release of Wallet v1.2.0, Treasury with multisig, Heisenberg testnet updates.</span>
+          <span class="blog-row-arrow">→</span>
+        </div>
+      </a>
+      <a href="https://quantus.network/blog" target="_blank" class="blog-row">
+        <div class="blog-row-top">
+          <span class="blog-row-date">FEB 20</span>
+          <span class="blog-row-tag">RESEARCH</span>
+        </div>
+        <div class="blog-row-bottom">
+          <span class="blog-row-title">Open Research and the Post-Quantum Standard</span>
+          <span class="blog-row-desc">Covering the launch of research.quantus.com, ZK proof aggregation, and multisig pallet merge.</span>
+          <span class="blog-row-arrow">→</span>
+        </div>
+      </a>
+      <a href="https://quantus.network/blog" target="_blank" class="blog-view-all">VIEW ALL POSTS →</a>
+    </div>
+
+    <!-- Podcast grid -->
+    <div class="blog-podcast-wrap">
+      <span class="blog-section-label">QDAY Podcast</span>
+      <div class="blog-podcast-grid">
+
+        <!-- Left: EP. 18 -->
+        <div class="blog-pod-left">
+          <div class="blog-pod-thumb">
+            <img src="https://img.youtube.com/vi/wz6d0qRRHLs/maxresdefault.jpg" alt="EP.18 thumbnail" style="width:100%;height:100%;object-fit:cover;display:block;" />
+          </div>
+          <div class="blog-pod-left-text">
+            <p class="blog-pod-ep-title">EP. 18 — Is the Quantum threat really that close?</p>
+            <span class="blog-pod-meta">1:27:02 · 9 DAYS AGO</span>
+            <a href="https://www.youtube.com/@QuantusNetwork" target="_blank" class="blog-pod-cta">WATCH ON YOUTUBE →</a>
+          </div>
+        </div>
+
+        <!-- Right col: EP.17 + View All -->
+        <div class="blog-pod-right-col">
+          <div class="blog-pod-right-top">
+            <p class="blog-pod-ep-title-sm">EP. 17 — Building A New Sound Money System</p>
+            <span class="blog-pod-meta-sm">1:12:56 · 1 MONTH AGO</span>
+            <a href="https://www.youtube.com/@QuantusNetwork" target="_blank" class="blog-pod-cta">WATCH →</a>
+          </div>
+          <div class="blog-pod-right-bottom">
+            <a href="https://www.youtube.com/@QuantusNetwork" target="_blank" class="blog-pod-view-all">VIEW ALL EPISODES →</a>
+            <span class="blog-pod-view-sub">18 episodes on QDay Podcast</span>
+          </div>
+        </div>
+
+      </div><!-- /.blog-podcast-grid -->
+    </div><!-- /.blog-podcast-wrap -->
+
+  </div><!-- /.blog-inner -->
+
+</section>
+
 <script>
 /* ══ MATH ══ */
 function fact(n){ let r=1; for(let i=2;i<=n;i++) r*=i; return r; }
@@ -1729,6 +2022,38 @@ probObs.observe(probSection);
       });
     }
   }, { threshold: 0.15 });
+  obs.observe(section);
+})();
+
+/* ══ BLOG SECTION ══ */
+(function(){
+  const section  = document.getElementById('blog');
+  const divider  = section.querySelector('.blog-divider');
+  const eyebrow  = section.querySelector('.blog-eyebrow');
+  const headline = section.querySelector('.blog-headline');
+  const rows     = section.querySelectorAll('.blog-row');
+  const viewAll  = section.querySelector('.blog-view-all');
+  const podcast  = section.querySelector('.blog-podcast-wrap');
+
+  let animated = false;
+  const obs = new IntersectionObserver(entries => {
+    if(entries[0].intersectionRatio >= 0.1 && !animated){
+      animated = true;
+      obs.disconnect();
+      divider.classList.add('expanded');
+      eyebrow.classList.add('in');
+      headline.classList.add('in');
+      rows.forEach((row, i) => {
+        const delay = 0.3 + i * 0.05;
+        row.style.transition = `opacity 0.6s ease ${delay}s, transform 0.6s ease ${delay}s, background 0.2s ease, padding-left 0.2s ease`;
+        row.classList.add('in');
+      });
+      const viewDelay = 0.3 + rows.length * 0.05;
+      viewAll.style.transition = `opacity 0.6s ease ${viewDelay}s, transform 0.6s ease ${viewDelay}s, color 0.2s`;
+      viewAll.classList.add('in');
+      podcast.classList.add('in');
+    }
+  }, { threshold: 0.1 });
   obs.observe(section);
 })();
 
