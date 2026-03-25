@@ -6,57 +6,8 @@
 <title>Quantus Network — Quantum-Secure L1 Blockchain</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { width: 100%; overflow-x: hidden; overflow-y: auto; }
-body { width: 100%; overflow-x: hidden; overflow-y: auto; }
-
-:root {
-  --void: #0E0E0E;
-  --flare: #FF6B35;
-  --content: #E8E6E0;
-  --white: #FFFFFF;
-  --muted: rgba(232,230,224,0.42);
-  --border: rgba(232,230,224,0.08);
-  --border-med: rgba(232,230,224,0.16);
-}
-
-body {
-  background: var(--void);
-  color: var(--content);
-  font-family: 'Geist', sans-serif;
-  cursor: crosshair;
-  user-select: none;
-}
-
-/* GRAIN */
-body::after {
-  content: '';
-  position: fixed; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none; z-index: 900;
-  opacity: 0.7; mix-blend-mode: overlay;
-}
-
-/* ═══════════════════════════
-   LOADER
-═══════════════════════════ */
-#loader {
-  position: fixed; inset: 0;
-  background: var(--void);
-  z-index: 800;
-  display: flex; flex-direction: column;
-  overflow: hidden;
-  transition: opacity 0.5s ease;
-}
-#loader.out { opacity: 0; pointer-events: none; }
-
-#terminal {
-  font-family: 'Geist Mono', monospace;
-  font-size: 12px; color: rgba(232,230,224,0.35);
-  line-height: 1.9; padding: 44px 52px 0;
-  flex-shrink: 0; position: relative; z-index: 2;
-}
 .tl { opacity: 0; }
 .tl.on { opacity: 1; }
 .tl .ac { color: var(--flare); }
@@ -66,21 +17,6 @@ body::after {
   background: var(--flare); vertical-align: middle;
   animation: bl 0.9s step-end infinite;
 }
-@keyframes bl { 0%,100%{opacity:1} 50%{opacity:0} }
-
-#ascii-stage {
-  flex: 1; display: flex;
-  align-items: center; justify-content: center;
-  padding: 12px 48px 36px;
-}
-#ascii-out {
-  font-family: 'Geist Mono', monospace;
-  font-size: 12px; line-height: 1.18;
-  letter-spacing: 0.06em; white-space: pre;
-  color: rgba(255,107,53,0);
-  transition: color 0.35s;
-}
-#ascii-out.lit { color: rgba(255,107,53,0.5); }
 
 /* ═══════════════════════════
    HERO
@@ -88,6 +24,7 @@ body::after {
 #hero {
   position: fixed; inset: 0; height: 100vh;
   opacity: 0; transition: opacity 0.8s ease;
+  z-index: 10;
 }
 #hero.on { opacity: 1; }
 
@@ -103,48 +40,13 @@ body::after {
   padding: 0;
 }
 
-/* NAV */
-nav {
-  position: absolute; top: 0; left: 0; right: 0;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 20px 52px;
-  border-bottom: 1px solid var(--border);
-  z-index: 10; background: rgba(14,14,14,0.3);
-  backdrop-filter: blur(4px);
-}
-
-/* Logo — just the SVG, larger */
-.logo { display: block; line-height: 0; }
-.logo svg { height: 26px; width: auto; display: block; }
-
-.nav-links {
-  display: flex; gap: 32px; list-style: none;
-  position: absolute; left: 50%; transform: translateX(-50%);
-}
-.nav-links a {
-  font-size: 12px; font-weight: 400; color: var(--muted);
-  text-decoration: none; letter-spacing: 0.09em; text-transform: uppercase;
-  transition: color 0.2s;
-}
-.nav-links a:hover { color: var(--content); }
-
-.nav-dl {
-  font-family: 'Geist Mono', monospace;
-  font-size: 10.5px; font-weight: 500;
-  letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--flare); border: 1px solid var(--flare);
-  padding: 8px 18px; text-decoration: none;
-  transition: background 0.18s, color 0.18s;
-}
-.nav-dl:hover { background: var(--flare); color: var(--void); }
-
 /* HERO CONTENT */
 .hc {
   position: absolute; inset: 0;
   display: flex; flex-direction: column;
   justify-content: center; align-items: center;
   text-align: center;
-  padding: 0 80px; padding-top: 96px; padding-bottom: 60px;
+  padding: 0 80px; padding-top: 66px; padding-bottom: 60px;
   z-index: 10; pointer-events: none;
 }
 
@@ -208,7 +110,7 @@ h1 {
   font-family: 'Geist Mono', monospace;
   font-size: 12px; font-weight: 400;
   letter-spacing: 0.11em; text-transform: uppercase;
-  background: transparent; color: var(--content);
+  background: #0E0E0E; color: var(--content);
   border: 1px solid var(--border-med);
   padding: 12px 24px; text-decoration: none;
   transition: border-color 0.18s;
@@ -274,8 +176,6 @@ h1 {
   background: #4ade80; border-radius: 50%;
   animation: pd 2s ease infinite; flex-shrink: 0;
 }
-@keyframes pd { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.6)} }
-
 /* ═══════════════════════════
    PROBLEM SECTION
 ═══════════════════════════ */
@@ -601,7 +501,7 @@ h1 {
 #community {
   background: #0E0E0E;
   position: relative; z-index: 50;
-  padding: 0;
+  padding: 0 0 80px 0;
 }
 .community-divider {
   position: relative;
@@ -640,16 +540,17 @@ h1 {
   transition: opacity 0.7s ease 0.15s, transform 0.7s ease 0.15s;
 }
 .community-headline.in { opacity: 1; transform: none; }
-/* Grid */
+/* Grid — border-collapse trick: parent has top+left, each cell has right+bottom */
 .community-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0;
-  border: 1px solid rgba(232,230,224,0.08);
-  margin: 48px 52px 80px;
+  margin: 48px 52px 0;
+  border-top: 1px solid rgba(232,230,224,0.08);
+  border-left: 1px solid rgba(232,230,224,0.08);
 }
 .community-panel {
-  outline: 1px solid rgba(232,230,224,0.08);
+  border-right: 1px solid rgba(232,230,224,0.08);
+  border-bottom: 1px solid rgba(232,230,224,0.08);
   padding: 40px 36px;
   display: flex;
   flex-direction: column;
@@ -707,15 +608,9 @@ h1 {
 #blog {
   background: #0E0E0E;
   position: relative; z-index: 50;
-  margin-top: 80px;
 }
 #blog::before {
-  content: '';
-  position: absolute;
-  top: -120px; left: 0; right: 0;
-  height: 120px;
-  background: #0E0E0E;
-  z-index: -1;
+  display: none;
 }
 .blog-divider {
   position: relative;
@@ -830,28 +725,27 @@ h1 {
 .blog-podcast-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0;
-  border: 1px solid rgba(232,230,224,0.08);
+  border-top: 1px solid rgba(232,230,224,0.08);
+  border-left: 1px solid rgba(232,230,224,0.08);
 }
 .blog-pod-left {
   border-right: 1px solid rgba(232,230,224,0.08);
-  background: transparent;
+  border-bottom: 1px solid rgba(232,230,224,0.08);
   padding: 32px;
-  display: flex; flex-direction: row; gap: 24px; align-items: flex-start;
-}
-.blog-pod-right-col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex; flex-direction: column; gap: 20px;
 }
 .blog-pod-left-text {
   display: flex; flex-direction: column; justify-content: flex-start; flex: 1;
 }
 .blog-pod-thumb {
-  width: 180px; flex-shrink: 0;
-  aspect-ratio: 16/9;
-  overflow: hidden;
-  display: block;
-  background: #111;
+  width: 100%; aspect-ratio: 16/9; overflow: hidden;
+  display: block; background: #111;
+}
+.blog-pod-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.blog-pod-right-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid rgba(232,230,224,0.08);
 }
 .blog-pod-ep-title {
   font-family: 'Geist', sans-serif;
@@ -876,34 +770,32 @@ h1 {
 .blog-pod-cta {
   font-family: 'Geist Mono', monospace;
   font-size: 12px; letter-spacing: 0.1em;
-  color: rgba(232,230,224,0.4);
+  color: #FF6B35;
   text-decoration: none; display: block;
-  transition: color 0.2s;
 }
-.blog-pod-cta:hover { color: #FF6B35; }
+.blog-pod-cta:hover { opacity: 0.75; }
 .blog-pod-right-top {
   border-right: 1px solid rgba(232,230,224,0.08);
-  background: transparent;
   padding: 32px;
-  display: flex; flex-direction: column;
-  justify-content: flex-start; align-items: flex-start;
-  align-self: start;
+  display: flex; flex-direction: column; align-items: flex-start;
 }
 .blog-pod-right-bottom {
-  background: transparent;
   padding: 32px;
-  display: flex; flex-direction: column;
-  justify-content: flex-start; align-items: flex-start;
-  align-self: start;
+  display: flex; flex-direction: column; align-items: flex-start;
 }
 .blog-pod-view-all {
   font-family: 'Geist Mono', monospace;
   font-size: 14px; letter-spacing: 0.12em;
-  color: rgba(232,230,224,0.5);
+  color: #FF6B35;
   text-decoration: none; display: block;
-  transition: color 0.2s;
 }
-.blog-pod-view-all:hover { color: #FF6B35; }
+.blog-pod-view-all:hover { opacity: 0.75; }
+.blog-pod-left:hover,
+.blog-pod-right-top:hover,
+.blog-pod-right-bottom:hover {
+  background: rgba(232,230,224,0.04);
+  transition: background 0.2s ease;
+}
 .blog-pod-view-sub {
   font-family: 'Geist', sans-serif;
   font-size: 12px;
@@ -1082,22 +974,161 @@ h1 {
 @keyframes flow { from{stroke-dashoffset:0} to{stroke-dashoffset:-20} }
 .eco-card:hover .net-spoke { animation: flow 1s linear infinite; }
 
+@media (max-width: 768px) {
+
+  /* ── HERO ── */
+  #ascii-hero {
+    font-size: 6px;
+    line-height: 1.15;
+    letter-spacing: 0.02em;
+    padding: 0;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  #freq { display: none; }
+
+  h1 {
+    font-size: clamp(28px, 8vw, 40px);
+  }
+
+  .hc {
+    padding: 0 24px;
+    padding-top: 80px;
+    padding-bottom: 60px;
+  }
+
+  .ctas {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .cta-p, .cta-s {
+    font-size: 10px;
+    padding: 10px 14px;
+    letter-spacing: 0.08em;
+  }
+
+  .t-item {
+    padding: 0 32px;
+  }
+  .t-lbl { font-size: 10px; }
+  .t-val { font-size: 10px; }
+
+  /* ── PROBLEM SECTION ── */
+  .prob-frame {
+    margin: 0 16px;
+  }
+
+  .prob-h2 {
+    font-size: 28px;
+  }
+
+  .prob-headline-row {
+    padding: 32px 20px;
+  }
+
+  .prob-data-row1 {
+    padding: 20px;
+  }
+
+  .prob-data-row1 .cell-num {
+    font-size: 40px;
+  }
+
+  .prob-data-row2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .prob-chain-cell:nth-child(2) {
+    border-right: none;
+  }
+
+  .prob-chain-cell:nth-child(3) {
+    border-top: 1px solid rgba(232,230,224,0.08);
+    border-right: 1px solid rgba(232,230,224,0.08);
+  }
+
+  .prob-chain-cell:nth-child(4) {
+    border-top: 1px solid rgba(232,230,224,0.08);
+    border-right: none;
+  }
+
+  .prob-chain-cell {
+    padding: 16px;
+  }
+
+  .cell-enc {
+    font-size: 16px;
+  }
+
+  .cell-tag {
+    font-size: 10px;
+    padding: 3px 7px;
+  }
+
+  .prob-eyebrow, .prob-status-label {
+    font-size: 10px;
+  }
+  .prob-status { display: none; }
+  .prob-source { font-size: 10px; letter-spacing: 0.08em; }
+
+  .prob-bottom-row {
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+    padding: 12px 20px;
+  }
+
+  /* ── SOLUTION SECTION ── */
+  #typewriter-block {
+    padding: 48px 24px 40px;
+  }
+
+  #typewriter-text {
+    font-size: 26px;
+  }
+
+  #pillars {
+    margin: 0 16px;
+    grid-template-columns: 1fr;
+  }
+
+  .pillar-card {
+    border-right: none;
+    border-bottom: 1px solid rgba(232,230,224,0.08);
+  }
+
+  .pillar-card:last-child {
+    border-bottom: none;
+  }
+
+  /* ── ECOSYSTEM SECTION ── */
+  .eco-inner {
+    padding: 60px 24px;
+  }
+
+  .eco-headline {
+    font-size: 32px;
+    margin-bottom: 40px;
+  }
+
+  .eco-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .eco-card {
+    height: auto;
+    min-height: 320px;
+  }
+
+}
+
 </style>
 </head>
 <body>
 
-<!-- LOADER -->
-<div id="loader">
-  <div id="terminal"></div>
-  <div id="ascii-stage"><div id="ascii-out"></div></div>
-</div>
-
-<!-- HERO -->
-<div id="hero">
-  <!-- Full-bleed ASCII canvas -->
-  <div id="ascii-hero"></div>
-
-  <nav>
+<!-- NAV -->
+<nav>
     <!-- QUANTUS LOGO — extracted from perfect_Q_3.svg -->
     <!-- Q mark viewBox region: ~480-810 x 1126-1455, wordmark: 832-2082 x 1238-1420 -->
     <a href="#" class="logo">
@@ -1116,7 +1147,34 @@ h1 {
       <li><a href="#">Community</a></li>
     </ul>
     <a href="#" class="nav-dl">Download Wallet</a>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-menu-close" id="mobile-menu-close">CLOSE ✕</button>
+  <div class="mobile-menu-links">
+    <a href="#">Technology</a>
+    <a href="#">Ecosystem</a>
+    <a href="#">Network</a>
+    <a href="#">Community</a>
+  </div>
+  <a href="#" class="mobile-menu-cta">Download Wallet</a>
+</div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div id="terminal"></div>
+  <div id="ascii-stage"><div id="ascii-out"></div></div>
+</div>
+
+<!-- HERO -->
+<div id="hero">
+  <!-- Full-bleed ASCII canvas -->
+  <div id="ascii-hero"></div>
 
   <div class="hc" id="hc">
     <div class="eyebrow">Quantum-Secure L1 Blockchain</div>
@@ -1204,7 +1262,6 @@ h1 {
     <!-- BOTTOM ROW -->
     <div class="prob-bottom-row">
       <span class="prob-source">Source: NIST Post-Quantum Cryptography Standardization · 2024</span>
-      <span class="prob-source">Est. Quantum Threat Timeline: 2030–2035</span>
     </div>
   </div>
 </section>
@@ -1467,7 +1524,7 @@ h1 {
         <p class="community-panel-desc">Behind the scenes</p>
       </div>
       <div>
-        <a href="https://www.instagram.com/quantusnetwork/" target="_blank" class="community-panel-cta">Follow on Instagram</a>
+        <a href="https://www.instagram.com/quantusnetwork/" target="_blank" class="community-panel-cta">Follow on IG</a>
       </div>
     </div>
 
@@ -1545,24 +1602,26 @@ h1 {
       <span class="blog-section-label">QDAY Podcast</span>
       <div class="blog-podcast-grid">
 
-        <!-- Left: EP. 18 -->
+        <!-- Left: EP. 18 — half width -->
         <div class="blog-pod-left">
           <div class="blog-pod-thumb">
-            <img src="https://img.youtube.com/vi/wz6d0qRRHLs/maxresdefault.jpg" alt="EP.18 thumbnail" style="width:100%;height:100%;object-fit:cover;display:block;" />
+            <a href="https://www.youtube.com/watch?v=wz6d0qRRHLs" target="_blank" style="display:block;line-height:0;">
+              <img src="https://img.youtube.com/vi/wz6d0qRRHLs/maxresdefault.jpg" alt="EP.18 thumbnail" style="width:100%;height:100%;object-fit:cover;display:block;" />
+            </a>
           </div>
           <div class="blog-pod-left-text">
             <p class="blog-pod-ep-title">EP. 18 — Is the Quantum threat really that close?</p>
             <span class="blog-pod-meta">1:27:02 · 9 DAYS AGO</span>
-            <a href="https://www.youtube.com/@QuantusNetwork" target="_blank" class="blog-pod-cta">WATCH ON YOUTUBE →</a>
+            <a href="https://www.youtube.com/watch?v=wz6d0qRRHLs" target="_blank" class="blog-pod-cta">WATCH ON YOUTUBE →</a>
           </div>
         </div>
 
-        <!-- Right col: EP.17 + View All -->
+        <!-- Right col: EP17 + View All side by side -->
         <div class="blog-pod-right-col">
           <div class="blog-pod-right-top">
             <p class="blog-pod-ep-title-sm">EP. 17 — Building A New Sound Money System</p>
             <span class="blog-pod-meta-sm">1:12:56 · 1 MONTH AGO</span>
-            <a href="https://www.youtube.com/@QuantusNetwork" target="_blank" class="blog-pod-cta">WATCH →</a>
+            <a href="https://www.youtube.com/watch?v=tASGl64WSms" target="_blank" class="blog-pod-cta">WATCH ON YOUTUBE →</a>
           </div>
           <div class="blog-pod-right-bottom">
             <a href="https://www.youtube.com/@QuantusNetwork" target="_blank" class="blog-pod-view-all">VIEW ALL EPISODES →</a>
@@ -1576,6 +1635,80 @@ h1 {
   </div><!-- /.blog-inner -->
 
 </section>
+
+<section id="newsletter">
+  <div class="newsletter-divider"></div>
+  <div class="newsletter-content" style="position:relative;z-index:2;width:100%;">
+    <div id="newsletter-form-wrap">
+      <h2 class="newsletter-headline">The window is open.</h2>
+      <p class="newsletter-sub">Get quantum security updates, protocol news, and early access<br>straight to your inbox.</p>
+      <div class="newsletter-name-row">
+        <input type="text" id="nl-firstname" class="newsletter-name-input"
+        placeholder="First name" aria-label="First name" />
+        <input type="text" id="nl-lastname" class="newsletter-name-input"
+        placeholder="Last name" aria-label="Last name" />
+      </div>
+      <div class="newsletter-form-row">
+        <input type="email" id="nl-email" class="newsletter-input"
+        placeholder="Enter your email" aria-label="Email address" />
+        <button class="newsletter-btn" type="button" id="nl-submit">SUBSCRIBE</button>
+      </div>
+      <span class="newsletter-error-msg" id="nl-error">
+        Please fill in all fields with a valid email address.
+      </span>
+      <span class="newsletter-fine">No spam. Unsubscribe anytime.</span>
+    </div>
+    <div class="newsletter-success" id="newsletter-success">
+      <span class="newsletter-success-headline">You're in.</span>
+      <span class="newsletter-success-sub">We'll keep you ahead of the curve.</span>
+    </div>
+  </div>
+</section>
+
+<footer id="footer">
+
+  <div style="position:absolute;bottom:-100px;left:-100px;width:500px;height:500px;background:radial-gradient(circle, rgba(255,107,53,0.12) 0%, transparent 70%);pointer-events:none;z-index:0;"></div>
+  <div style="position:absolute;top:-80px;right:-80px;width:450px;height:450px;background:radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%);pointer-events:none;z-index:0;"></div>
+
+  <div class="footer-left">
+    <a href="#" class="footer-brand-name">QUANTUS</a>
+    <div class="footer-left-bottom">
+      <span class="footer-copy">© 2026 Quantus Network.</span>
+      <span class="footer-copy">All rights reserved.</span>
+    </div>
+  </div>
+
+  <div class="footer-right">
+    <div class="footer-right-top">
+      <div class="footer-col">
+        <span class="footer-col-label">Protocol</span>
+        <a href="#" class="footer-link">Whitepaper</a>
+        <a href="#" class="footer-link">Technology</a>
+        <a href="#" class="footer-link">Network</a>
+        <a href="#" class="footer-link">Wallet</a>
+      </div>
+      <div class="footer-col">
+        <span class="footer-col-label">Community</span>
+        <a href="https://t.me/quantusnetwork" target="_blank" rel="noopener" class="footer-link">Telegram</a>
+        <a href="https://x.com/QuantusNetwork" target="_blank" rel="noopener" class="footer-link">X (Twitter)</a>
+        <a href="https://www.instagram.com/quantusnetwork/" target="_blank" rel="noopener" class="footer-link">Instagram</a>
+        <a href="https://www.youtube.com/@QuantusNetwork" target="_blank" rel="noopener" class="footer-link">YouTube</a>
+      </div>
+      <div class="footer-col">
+        <span class="footer-col-label">Company</span>
+        <a href="#" class="footer-link">About</a>
+        <a href="#" class="footer-link">Blog</a>
+        <a href="#" class="footer-link">QDay Podcast</a>
+        <a href="#" class="footer-link">Contact</a>
+      </div>
+    </div>
+    <div class="footer-right-bottom">
+      <span class="footer-testnet">BUILT ON BELL TESTNET</span>
+    </div>
+  </div>
+
+
+</footer>
 
 <script>
 /* ══ MATH ══ */
@@ -1664,9 +1797,10 @@ let heroActive = false;
 function calcHeroDims(){
   const cw = window.innerWidth;
   const ch = window.innerHeight;
-  const fs = 11;
-  const lh = fs * 1.22;
-  const chW = fs * 0.62; // approx char width for Geist Mono at 11px
+  const isMobile = cw <= 768;
+  const fs = isMobile ? 6 : 11;
+  const lh = fs * (isMobile ? 1.15 : 1.22);
+  const chW = fs * (isMobile ? 0.60 : 0.62);
   heroCols = Math.floor(cw / chW);
   heroRows = Math.floor(ch / lh);
 }
@@ -1743,6 +1877,7 @@ function doTransition(){
   heroActive = true;
   loader.classList.add('out');
   hero.classList.add('on');
+  document.querySelector('nav').classList.add('visible');
 
   setTimeout(() => {
     loader.style.display = 'none';
@@ -2059,6 +2194,8 @@ probObs.observe(probSection);
 
 buildTicker();
 initLoader();
+
 </script>
+<script src="scripts.js"></script>
 </body>
 </html>
