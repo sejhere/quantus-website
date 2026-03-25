@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Technology — Quantus Network</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ═══════════════════════════
+   TECH PAGE -ALL SECTIONS
+═══════════════════════════ */
+
+/* ── HERO ── */
+#tech-hero {
+  position: relative;
+  height: 100vh;
+  background: #0E0E0E;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 0 52px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Dot lattice background */
+#tech-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle,
+    rgba(232,230,224,0.12) 1px,
+    transparent 1px
+  );
+  background-size: 28px 28px;
+  -webkit-mask-image: radial-gradient(
+    ellipse 80% 80% at 50% 50%,
+    transparent 30%,
+    rgba(0,0,0,0.6) 60%,
+    black 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 80% 80% at 50% 50%,
+    transparent 30%,
+    rgba(0,0,0,0.6) 60%,
+    black 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Orange accent lines -top right corner */
+#tech-hero::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: 320px;
+  background:
+    linear-gradient(to bottom, #FF6B35 1px, transparent 1px),
+    linear-gradient(to right, #FF6B35 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
+  -webkit-mask-image: radial-gradient(circle at top right, black 0%, transparent 70%);
+  mask-image: radial-gradient(circle at top right, black 0%, transparent 70%);
+}
+
+.tech-hero-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.tech-hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+  padding-right: 20px;
+}
+
+@keyframes lattice-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.tech-eyebrow {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #FF6B35;
+  display: block;
+  margin-bottom: 24px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.55s ease 0.1s, transform 0.55s ease 0.1s;
+}
+.tech-eyebrow.in { opacity: 1; transform: none; }
+
+.tech-hero-h1 {
+  font-family: 'Geist', sans-serif;
+  font-size: clamp(36px, 4.5vw, 68px);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  margin-bottom: 28px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.65s ease 0.25s, transform 0.65s ease 0.25s;
+}
+.tech-hero-h1.in { opacity: 1; transform: none; }
+
+.tech-hero-sub {
+  font-family: 'Geist', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: rgba(232,230,224,0.55);
+  line-height: 1.6;
+  max-width: 560px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.55s ease 0.42s, transform 0.55s ease 0.42s;
+}
+.tech-hero-sub.in { opacity: 1; transform: none; }
+
+/* ── SHARED SECTION STYLES ── */
+.tech-section {
+  background: #0E0E0E;
+  position: relative;
+  z-index: 50;
+  padding: 80px 52px 48px;
+}
+
+#architecture {
+  padding-top: 48px;
+}
+
+.tech-section-divider {
+  width: 0;
+  height: 1px;
+  background: #FF6B35;
+  margin-bottom: 48px;
+  margin-left: -52px;
+  transition: width 0.8s ease-out;
+}
+.tech-section-divider.expanded {
+  width: calc(100% + 104px);
+}
+
+.tech-section-eyebrow {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(232,230,224,0.35);
+  display: block;
+  margin-bottom: 20px;
+}
+
+.tech-section-h2 {
+  font-family: 'Geist', sans-serif;
+  font-size: clamp(32px, 3.8vw, 56px);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin-bottom: 40px;
+  max-width: none;
+  white-space: nowrap;
+}
+
+.tech-section-intro {
+  font-family: 'Geist', sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  color: rgba(232,230,224,0.55);
+  line-height: 1.7;
+  max-width: 100%;
+  margin-bottom: 64px;
+}
+
+/* ── ARCHITECTURE -3 columns ── */
+.tech-cols-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid rgba(232,230,224,0.08);
+}
+
+.tech-col-card {
+  padding: 36px 32px;
+  border-right: 1px solid rgba(232,230,224,0.08);
+  transition: background 0.3s ease;
+}
+.tech-col-card:last-child { border-right: none; }
+.tech-col-card:hover { background: rgba(232,230,224,0.03); }
+
+.tech-col-title {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #FF6B35;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.tech-col-body {
+  font-family: 'Geist', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(232,230,224,0.6);
+  line-height: 1.7;
+}
+
+/* ── CRYPTOGRAPHY -2 col + table ── */
+.tech-crypto-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid rgba(232,230,224,0.08);
+  margin-bottom: 64px;
+}
+
+.tech-crypto-col {
+  padding: 40px 36px;
+  border-right: 1px solid rgba(232,230,224,0.08);
+}
+.tech-crypto-col:last-child { border-right: none; }
+
+.tech-crypto-col-title {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(232,230,224,0.35);
+  display: block;
+  margin-bottom: 20px;
+}
+
+.tech-crypto-col-body {
+  font-family: 'Geist', sans-serif;
+  font-size: 15px;
+  color: rgba(232,230,224,0.6);
+  line-height: 1.7;
+}
+
+/* Specs table -instrument panel style */
+.tech-specs-frame {
+  position: relative;
+  border: 1px solid rgba(232,230,224,0.08);
+}
+
+.tech-specs-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+}
+.tech-specs-corner.tl { top:-1px; left:-1px; border-top:1px solid rgba(232,230,224,0.35); border-left:1px solid rgba(232,230,224,0.35); }
+.tech-specs-corner.tr { top:-1px; right:-1px; border-top:1px solid rgba(232,230,224,0.35); border-right:1px solid rgba(232,230,224,0.35); }
+.tech-specs-corner.bl { bottom:-1px; left:-1px; border-bottom:1px solid rgba(232,230,224,0.35); border-left:1px solid rgba(232,230,224,0.35); }
+.tech-specs-corner.br { bottom:-1px; right:-1px; border-bottom:1px solid rgba(232,230,224,0.35); border-right:1px solid rgba(232,230,224,0.35); }
+
+.tech-specs-top-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  padding: 16px 28px;
+  border-bottom: 1px solid rgba(232,230,224,0.08);
+  background: none;
+}
+
+.tech-specs-col-head {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(232,230,224,0.35);
+}
+.tech-specs-col-head.orange { color: #FF6B35; }
+
+.tech-specs-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  padding: 18px 28px;
+  border-bottom: 1px solid rgba(232,230,224,0.06);
+  align-items: center;
+}
+.tech-specs-row:last-child { border-bottom: none; }
+
+.tech-specs-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(232,230,224,0.45);
+}
+
+.tech-specs-val {
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  color: rgba(232,230,224,0.6);
+}
+
+.tech-specs-val.check-no {
+  color: rgba(255,107,53,0.7);
+  font-size: 16px;
+}
+.tech-specs-val.check-yes {
+  color: #4ade80;
+  font-size: 16px;
+}
+
+/* ── SCALABILITY -big stat ── */
+.tech-stat-block {
+  border: 1px solid rgba(232,230,224,0.08);
+  padding: 52px;
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.tech-stat-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(232,230,224,0.3);
+  display: block;
+  margin-bottom: 12px;
+}
+
+.tech-stat-num {
+  font-family: 'Geist Mono', monospace;
+  font-size: 96px;
+  font-weight: 500;
+  line-height: 1;
+  color: #FF6B35;
+  display: block;
+}
+
+.tech-stat-sub {
+  font-family: 'Geist', sans-serif;
+  font-size: 16px;
+  color: #FF6B35;
+  display: block;
+  margin-top: 16px;
+  letter-spacing: 0;
+  line-height: 1.6;
+  max-width: 520px;
+}
+
+.tech-stat-desc {
+  font-family: 'Geist', sans-serif;
+  font-size: 17px;
+  color: rgba(232,230,224,0.55);
+  line-height: 1.7;
+  max-width: 560px;
+}
+
+/* ── CONSENSUS ── */
+.tech-consensus-block {
+  border: 1px solid rgba(232,230,224,0.08);
+  padding: 52px;
+}
+
+.tech-consensus-body {
+  font-family: 'Geist', sans-serif;
+  font-size: 17px;
+  color: rgba(232,230,224,0.55);
+  line-height: 1.7;
+}
+
+/* ── CTA SECTION ── */
+#tech-cta {
+  background: #0E0E0E;
+  position: relative;
+  z-index: 50;
+  padding: 120px 52px;
+  text-align: center;
+  border-top: 1px solid rgba(232,230,224,0.08);
+}
+
+.tech-cta-h2 {
+  font-family: 'Geist', sans-serif;
+  font-size: 52px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+
+.tech-cta-sub {
+  font-family: 'Geist', sans-serif;
+  font-size: 17px;
+  color: rgba(232,230,224,0.45);
+  line-height: 1.7;
+  max-width: 520px;
+  margin: 0 auto 48px auto;
+}
+
+.tech-cta-btns {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+}
+
+.tech-cta-primary {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  background: #FF6B35;
+  color: #0E0E0E;
+  border: 1px solid #FF6B35;
+  padding: 14px 28px;
+  text-decoration: none;
+  transition: opacity 0.18s;
+}
+.tech-cta-primary:hover { opacity: 0.82; }
+
+.tech-cta-secondary {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  background: #0E0E0E;
+  color: rgba(232,230,224,0.8);
+  border: 1px solid rgba(232,230,224,0.16);
+  padding: 14px 28px;
+  text-decoration: none;
+  transition: border-color 0.18s;
+}
+.tech-cta-secondary:hover { border-color: rgba(232,230,224,0.5); }
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  #tech-hero { grid-template-columns: 1fr; height: auto; min-height: 100vh; padding: 120px 24px 80px; }
+  .tech-hero-visual { display: none; }
+  .tech-hero-h1 { white-space: normal !important; font-size: clamp(28px, 8vw, 40px) !important; }
+  .tech-hero-sub { font-size: 15px; }
+  .tech-section { padding: 80px 24px; }
+  .tech-section-divider { margin-left: -24px; }
+  .tech-section-divider.expanded { width: calc(100% + 48px); }
+  .tech-section-h2 { white-space: normal !important; font-size: 28px !important; line-height: 1.1 !important; }
+  .tech-cols-3 { grid-template-columns: 1fr; }
+  .tech-col-card { border-right: none; border-bottom: 1px solid rgba(232,230,224,0.08); }
+  .tech-col-card:last-child { border-bottom: none; }
+  .tech-crypto-grid { grid-template-columns: 1fr; }
+  .tech-crypto-col { border-right: none; border-bottom: 1px solid rgba(232,230,224,0.08); }
+  .tech-crypto-col:last-child { border-bottom: none; }
+  .tech-specs-col-head { font-size: 10px !important; letter-spacing: 0.1em !important; }
+  .tech-specs-label { font-size: 10px !important; letter-spacing: 0.06em !important; }
+  .tech-specs-val { font-size: 11px !important; }
+  .tech-specs-top-row { grid-template-columns: 1.5fr 1fr 1fr; padding: 10px 12px !important; }
+  .tech-specs-row { grid-template-columns: 1.5fr 1fr 1fr; padding: 12px 12px !important; }
+  .tech-stat-block { padding: 32px 24px; }
+  .tech-stat-num { font-size: 64px; }
+  .tech-consensus-block { padding: 32px 24px; }
+  #tech-cta { padding: 80px 24px; }
+  .tech-cta-h2 { font-size: 32px; }
+  .tech-cta-btns { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-menu-close" id="mobile-menu-close">CLOSE ✕</button>
+  <div class="mobile-menu-links">
+    <a href="#">Technology</a>
+    <a href="#">Ecosystem</a>
+    <a href="#">Network</a>
+    <a href="#">Community</a>
+  </div>
+  <a href="#" class="mobile-menu-cta">Download Wallet</a>
+</div>
+
+<!-- NAV -->
+<nav>
+    <!-- QUANTUS LOGO -extracted from perfect_Q_3.svg -->
+    <!-- Q mark viewBox region: ~480-810 x 1126-1455, wordmark: 832-2082 x 1238-1420 -->
+    <a href="#" class="logo">
+      <svg viewBox="0 0 1657 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M269.654 320L160.891 211.138L179.29 192.738L288.053 301.6L269.654 320Z" fill="#FF6B35"/>
+        <path d="M192.805 179.225L211.197 160.833L319.978 269.677L301.575 288.08L192.805 179.225Z" fill="#FF6B35"/>
+        <path d="M308.465 124.709C307.659 120.7 306.69 116.751 305.568 112.875C294.853 75.0657 269.816 44.3815 238.04 24.6476C208.27 5.74302 172.341 -3.5182 135.873 1.22843C129.359 2.03375 122.844 3.27928 116.368 4.98889C94.4841 10.6432 73.2044 21.5321 54.0473 38.4166C54.0268 38.4337 54.0064 38.4508 53.9893 38.4678C53.8801 38.5634 53.7709 38.6623 53.6651 38.7579C53.3648 39.024 53.0611 39.2936 52.7608 39.5666C52.6107 39.7031 52.4605 39.8362 52.3138 39.9727C52.0306 40.232 51.7439 40.4914 51.4607 40.7507C51.198 40.9896 50.9386 41.2318 50.6793 41.4741C50.5598 41.5867 50.437 41.6994 50.3176 41.812C49.5293 42.549 48.7479 43.2895 47.9801 44.0334C46.0555 45.8659 44.148 47.7632 42.2643 49.7219C40.8414 51.2745 39.4559 52.8408 38.1081 54.4173C22.4179 72.3869 11.9657 92.1481 6.11009 112.486C4.2947 118.649 2.90586 124.846 1.9265 131.049C-4.56045 170.701 5.71084 209.896 27.0758 241.577C48.7922 274.544 82.493 299.689 123.554 308.19C127.267 308.981 131.031 309.63 134.846 310.138C153.29 312.68 172.761 311.8 192.672 306.76C193.433 306.582 194.194 306.402 194.955 306.211V306.204C196.453 305.811 197.955 305.398 199.449 304.958L199.401 304.9C200.633 304.532 201.868 304.146 203.104 303.747C205.54 302.979 207.987 302.153 210.437 301.263L210.43 301.256C211.884 300.706 213.334 300.14 214.774 299.546L214.726 299.498C216.566 298.751 218.408 297.966 220.251 297.144L190.191 267.057C189.782 267.183 189.376 267.313 188.963 267.432L188.946 267.415C187.315 267.913 185.684 268.371 184.049 268.79H184.046C182.408 269.193 180.763 269.565 179.104 269.899L179.087 269.882C176.491 270.435 173.894 270.892 171.304 271.254C169.898 271.442 168.485 271.609 167.069 271.742L167.055 271.725C163.428 272.107 159.821 272.308 156.245 272.339C132.761 272.387 110.004 265.115 90.9113 252.332C87.1372 249.794 83.5099 247.036 80.0497 244.085C63.6634 230.009 51.1058 211.51 44.4892 190.534C43.0355 185.815 41.8787 180.952 41.0427 175.956C40.7663 174.489 40.524 173.022 40.3124 171.554C40.0702 169.678 39.8688 167.787 39.7187 165.883C39.5788 164.47 39.4696 163.057 39.3877 161.652C39.2717 159.031 39.2478 156.39 39.3194 153.728C39.3672 147.033 40.0156 140.468 41.2065 134.08C44.9294 114.885 53.532 96.9869 65.7552 82.0269C83.1072 61.0305 107.584 46.0809 134.836 41.0339C138.374 40.4095 141.971 39.9556 145.622 39.6724C147.475 39.495 149.321 39.3653 151.16 39.28C152.693 39.2322 154.232 39.2151 155.781 39.2322C157.388 39.2185 158.988 39.2424 160.582 39.2936C163.039 39.4131 165.506 39.6144 167.983 39.901C175.743 40.6517 183.227 42.1737 190.382 44.3747C211.034 50.8855 229.328 63.1394 243.37 79.164C243.558 79.3789 243.745 79.5939 243.933 79.8123C243.984 79.8703 244.032 79.9283 244.083 79.9863C246.431 82.7299 248.656 85.5793 250.748 88.5276C263.141 106.081 270.802 126.951 272.201 148.787C272.211 148.978 272.225 149.172 272.235 149.364C272.58 155.967 272.351 162.699 271.491 169.5L271.549 169.551C271.137 172.872 270.573 176.202 269.853 179.536L269.939 179.621C269.185 183.153 268.25 186.685 267.137 190.203L297.153 220.242C298.558 217.072 299.855 213.909 301.046 210.749L301.131 210.834C302.032 208.326 302.872 205.828 303.65 203.337C304.24 201.522 304.796 199.713 305.318 197.905L305.376 197.953C305.626 197.007 305.864 196.066 306.096 195.124C312.717 170.616 313.054 146.791 308.465 124.699V124.709Z" fill="#FF6B35"/>
+        <path d="M442.153 289.168C411.192 289.168 388.566 283.346 374.276 271.702C359.854 260.059 352.709 241.138 352.709 215.204V108.162H394.52V210.97C394.52 226.848 398.093 238.227 405.502 245.107C412.912 252.12 424.952 255.56 441.889 255.56C458.825 255.56 470.998 252.12 478.407 245.24C485.685 238.359 489.389 226.848 489.389 210.97V108.162H530.804V215.204C530.804 241.27 523.659 260.059 509.501 271.702C495.344 283.346 472.85 289.168 442.153 289.168ZM759.903 287.051H716.239L701.42 252.12H607.609L592.393 287.051H550.979L630.897 108.162H680.25L759.903 287.051ZM649.024 157.515L620.312 223.408H689.115L660.932 157.515L655.904 143.225H654.184L649.024 157.515ZM827.844 287.051H788.017V108.162H836.444L916.362 215.998L931.048 236.904L932.107 236.639L931.313 202.502V108.162H971.14V287.051H921.257L827.844 160.823L826.917 161.088L827.844 195.225V287.051ZM1180.66 108.162V141.505H1112.38V287.051H1070.7V141.505H1002.03V108.162H1180.66ZM1300.6 289.168C1269.63 289.168 1247.01 283.346 1232.72 271.702C1218.3 260.059 1211.15 241.138 1211.15 215.204V108.162H1252.96V210.97C1252.96 226.848 1256.54 238.227 1263.95 245.107C1271.35 252.12 1283.4 255.56 1300.33 255.56C1317.27 255.56 1329.44 252.12 1336.85 245.24C1344.13 238.359 1347.83 226.848 1347.83 210.97V108.162H1389.25V215.204C1389.25 241.27 1382.1 260.059 1367.94 271.702C1353.79 283.346 1331.29 289.168 1300.6 289.168ZM1516.86 289.168C1486.83 289.168 1464.46 284.669 1449.78 275.539C1434.96 266.542 1426.89 251.855 1425.43 231.743H1466.18C1466.98 241.932 1471.61 249.209 1479.81 253.708C1488.02 258.206 1500.32 260.456 1516.86 260.456C1532.21 260.456 1543.32 258.339 1550.2 253.84C1557.08 249.341 1560.66 243.519 1560.66 236.11C1560.66 231.347 1559.2 227.509 1556.29 224.731C1553.38 221.952 1547.69 219.571 1539.49 217.454C1531.28 215.337 1519.11 213.484 1502.97 211.764C1491.19 210.573 1481.27 209.118 1473.07 207.265C1464.86 205.545 1457.72 203.428 1451.63 200.782C1445.54 198.268 1440.91 195.225 1437.47 191.52C1434.03 187.815 1431.39 183.713 1429.8 178.95C1428.21 174.187 1427.42 168.63 1427.42 162.146C1427.42 155.531 1428.34 149.444 1430.33 143.887C1432.31 138.33 1435.49 133.302 1439.99 128.539C1444.35 123.775 1449.91 119.806 1456.53 116.498C1463.14 113.322 1471.21 110.676 1480.87 108.824C1490.53 106.971 1501.38 106.045 1513.55 106.045C1540.94 106.045 1561.58 110.544 1575.61 119.277C1589.63 128.142 1597.31 141.638 1598.63 159.632L1559.33 159.368C1558.54 151.164 1554.44 144.945 1546.76 140.711C1539.09 136.61 1527.18 134.493 1511.17 134.493C1496.88 134.493 1486.3 136.61 1479.28 140.711C1472.27 144.945 1468.83 150.503 1468.83 157.515C1468.83 162.279 1470.29 165.983 1473.2 168.63C1476.11 171.276 1481.53 173.525 1489.6 175.378C1497.68 177.23 1509.85 178.95 1525.99 180.538C1540.81 182.126 1552.98 184.11 1562.51 186.492C1572.04 188.874 1579.71 192.049 1585.8 196.019C1591.75 199.988 1595.98 204.751 1598.37 210.309C1600.75 215.866 1601.94 222.746 1601.94 230.95C1601.94 239.418 1600.22 247.224 1597.04 254.105C1593.87 260.985 1588.84 267.204 1582.22 272.496C1575.61 277.789 1566.74 281.891 1555.63 284.801C1544.51 287.712 1531.68 289.168 1516.86 289.168Z" fill="#FF6B35"/>
+      </svg>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#">Technology</a></li>
+      <li><a href="#">Ecosystem</a></li>
+      <li><a href="#">Network</a></li>
+      <li><a href="#">Community</a></li>
+    </ul>
+    <a href="#" class="nav-dl">Download Wallet</a>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+<!-- HERO -->
+<section id="tech-hero">
+  <div class="tech-hero-inner">
+    <span class="tech-eyebrow" id="tech-eyebrow">The Protocol</span>
+    <h1 class="tech-hero-h1" id="tech-h1">Post-quantum security.<br>At every layer.</h1>
+    <p class="tech-hero-sub" id="tech-sub">Quantus isn't a general purpose blockchain. It does one thing better than any chain in existence - quantum-secure, private, scalable money.</p>
+  </div>
+  <div class="tech-hero-visual">
+    <svg viewBox="0 0 500 500" fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style="width:100%;max-width:580px;display:block;opacity:0.4;animation:lattice-spin 40s linear infinite;">
+      <!-- Outer hexagonal frame -->
+      <polygon points="250,40 420,145 420,355 250,460 80,355 80,145"
+        stroke="rgba(232,230,224,0.4)" stroke-width="0.75" fill="none"
+        stroke-dasharray="4,4"/>
+      <!-- Inner hexagon -->
+      <polygon points="250,110 370,177 370,323 250,390 130,323 130,177"
+        stroke="rgba(232,230,224,0.25)" stroke-width="0.75" fill="none"/>
+      <!-- Centre point -->
+      <circle cx="250" cy="250" r="5"
+        fill="#FF6B35" stroke="#FF6B35" stroke-width="1"/>
+      <!-- Spokes from centre to outer vertices -->
+      <line x1="250" y1="250" x2="250" y2="40"
+        stroke="rgba(232,230,224,0.15)" stroke-width="0.75"/>
+      <line x1="250" y1="250" x2="420" y2="145"
+        stroke="rgba(232,230,224,0.15)" stroke-width="0.75"/>
+      <line x1="250" y1="250" x2="420" y2="355"
+        stroke="rgba(232,230,224,0.15)" stroke-width="0.75"/>
+      <line x1="250" y1="250" x2="250" y2="460"
+        stroke="rgba(232,230,224,0.15)" stroke-width="0.75"/>
+      <line x1="250" y1="250" x2="80" y2="355"
+        stroke="rgba(232,230,224,0.15)" stroke-width="0.75"/>
+      <line x1="250" y1="250" x2="80" y2="145"
+        stroke="rgba(232,230,224,0.15)" stroke-width="0.75"/>
+      <!-- Spokes from centre to inner vertices -->
+      <line x1="250" y1="250" x2="250" y2="110"
+        stroke="rgba(255,107,53,0.2)" stroke-width="0.75"/>
+      <line x1="250" y1="250" x2="370" y2="177"
+        stroke="rgba(255,107,53,0.2)" stroke-width="0.75"/>
+      <line x1="250" y1="250" x2="370" y2="323"
+        stroke="rgba(255,107,53,0.2)" stroke-width="0.75"/>
+      <line x1="250" y1="250" x2="250" y2="390"
+        stroke="rgba(255,107,53,0.2)" stroke-width="0.75"/>
+      <line x1="250" y1="250" x2="130" y2="323"
+        stroke="rgba(255,107,53,0.2)" stroke-width="0.75"/>
+      <line x1="250" y1="250" x2="130" y2="177"
+        stroke="rgba(255,107,53,0.2)" stroke-width="0.75"/>
+      <!-- Cross connections outer -->
+      <line x1="250" y1="40" x2="420" y2="145"
+        stroke="rgba(232,230,224,0.1)" stroke-width="0.5"/>
+      <line x1="420" y1="145" x2="420" y2="355"
+        stroke="rgba(232,230,224,0.1)" stroke-width="0.5"/>
+      <line x1="420" y1="355" x2="250" y2="460"
+        stroke="rgba(232,230,224,0.1)" stroke-width="0.5"/>
+      <line x1="250" y1="460" x2="80" y2="355"
+        stroke="rgba(232,230,224,0.1)" stroke-width="0.5"/>
+      <line x1="80" y1="355" x2="80" y2="145"
+        stroke="rgba(232,230,224,0.1)" stroke-width="0.5"/>
+      <line x1="80" y1="145" x2="250" y2="40"
+        stroke="rgba(232,230,224,0.1)" stroke-width="0.5"/>
+      <!-- Cross connections inner -->
+      <line x1="250" y1="110" x2="370" y2="177"
+        stroke="rgba(255,107,53,0.1)" stroke-width="0.5"/>
+      <line x1="370" y1="177" x2="370" y2="323"
+        stroke="rgba(255,107,53,0.1)" stroke-width="0.5"/>
+      <line x1="370" y1="323" x2="250" y2="390"
+        stroke="rgba(255,107,53,0.1)" stroke-width="0.5"/>
+      <line x1="250" y1="390" x2="130" y2="323"
+        stroke="rgba(255,107,53,0.1)" stroke-width="0.5"/>
+      <line x1="130" y1="323" x2="130" y2="177"
+        stroke="rgba(255,107,53,0.1)" stroke-width="0.5"/>
+      <line x1="130" y1="177" x2="250" y2="110"
+        stroke="rgba(255,107,53,0.1)" stroke-width="0.5"/>
+      <!-- Outer vertex dots -->
+      <circle cx="250" cy="40"  r="3" fill="rgba(232,230,224,0.5)"/>
+      <circle cx="420" cy="145" r="3" fill="rgba(232,230,224,0.5)"/>
+      <circle cx="420" cy="355" r="3" fill="rgba(232,230,224,0.5)"/>
+      <circle cx="250" cy="460" r="3" fill="rgba(232,230,224,0.5)"/>
+      <circle cx="80"  cy="355" r="3" fill="rgba(232,230,224,0.5)"/>
+      <circle cx="80"  cy="145" r="3" fill="rgba(232,230,224,0.5)"/>
+      <!-- Inner vertex dots orange -->
+      <circle cx="250" cy="110" r="3"
+        fill="rgba(255,107,53,0.6)" stroke="#FF6B35" stroke-width="0.75"/>
+      <circle cx="370" cy="177" r="3"
+        fill="rgba(255,107,53,0.6)" stroke="#FF6B35" stroke-width="0.75"/>
+      <circle cx="370" cy="323" r="3"
+        fill="rgba(255,107,53,0.6)" stroke="#FF6B35" stroke-width="0.75"/>
+      <circle cx="250" cy="390" r="3"
+        fill="rgba(255,107,53,0.6)" stroke="#FF6B35" stroke-width="0.75"/>
+      <circle cx="130" cy="323" r="3"
+        fill="rgba(255,107,53,0.6)" stroke="#FF6B35" stroke-width="0.75"/>
+      <circle cx="130" cy="177" r="3"
+        fill="rgba(255,107,53,0.6)" stroke="#FF6B35" stroke-width="0.75"/>
+      <!-- Mid-ring dots -->
+      <circle cx="250" cy="250" r="60"
+        stroke="rgba(232,230,224,0.06)" stroke-width="0.75"
+        fill="none" stroke-dasharray="3,6"/>
+      <circle cx="250" cy="250" r="120"
+        stroke="rgba(232,230,224,0.04)" stroke-width="0.75"
+        fill="none" stroke-dasharray="3,6"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section class="tech-section" id="architecture">
+  <div class="tech-section-divider"></div>
+  <span class="tech-section-eyebrow">Architecture</span>
+  <h2 class="tech-section-h2">Built clean. No legacy. No compromises.</h2>
+  <p class="tech-section-intro">Every existing blockchain was built before quantum computers were a real threat. That means their security is borrowed time. Quantus was built after - with post-quantum cryptography as the foundation, not a feature.</p>
+  <div class="tech-cols-3">
+    <div class="tech-col-card">
+      <span class="tech-col-title">Quantum-Secure Signatures</span>
+      <p class="tech-col-body">Every transaction on Quantus is signed with ML-DSA - a NIST-approved post-quantum algorithm. The same standard governments and institutions are adopting now.</p>
+    </div>
+    <div class="tech-col-card">
+      <span class="tech-col-title">Secured Network Layer</span>
+      <p class="tech-col-body">Most chains only secure transactions. Quantus secures everything - including the communications between nodes. There's no weak point in the stack.</p>
+    </div>
+    <div class="tech-col-card">
+      <span class="tech-col-title">Built to Scale</span>
+      <p class="tech-col-body">Post-quantum signatures are larger than classical ones. We solved that with a zero-knowledge proof system that compresses thousands of transactions into a single verifiable proof - without sacrificing security.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CRYPTOGRAPHY -->
+<section class="tech-section" id="cryptography">
+  <div class="tech-section-divider"></div>
+  <span class="tech-section-eyebrow">Cryptography</span>
+  <h2 class="tech-section-h2">The standard quantum can't break.</h2>
+  <p class="tech-section-intro">In 2024, NIST finalized its post-quantum cryptography standards. Quantus was already building with them.</p>
+  <div class="tech-crypto-grid">
+    <div class="tech-crypto-col">
+      <span class="tech-crypto-col-title">What This Means</span>
+      <p class="tech-crypto-col-body">Classical blockchains use elliptic curve cryptography. A sufficiently powerful quantum computer can break it - deriving private keys from public ones, forging transactions, stealing funds. ML-DSA, the algorithm Quantus uses, has no known quantum vulnerability. Its security is based on a class of mathematical problems that quantum computers cannot solve efficiently.</p>
+    </div>
+    <div class="tech-crypto-col">
+      <span class="tech-crypto-col-title">Why It Matters Now</span>
+      <p class="tech-crypto-col-body">Quantum computers capable of breaking today's blockchains don't exist yet. But harvesting attacks do - adversaries collecting encrypted data today to decrypt later. The window to migrate is closing. Quantus doesn't need to migrate. It was already there.</p>
+    </div>
+  </div>
+
+  <!-- Specs table -->
+  <div class="tech-specs-frame">
+    <div class="tech-specs-corner tl"></div>
+    <div class="tech-specs-corner tr"></div>
+    <div class="tech-specs-corner bl"></div>
+    <div class="tech-specs-corner br"></div>
+    <div class="tech-specs-top-row">
+      <span class="tech-specs-col-head">Property</span>
+      <span class="tech-specs-col-head">ECDSA</span>
+      <span class="tech-specs-col-head orange">ML-DSA</span>
+    </div>
+    <div class="tech-specs-row">
+      <span class="tech-specs-label">Quantum Resistant</span>
+      <span class="tech-specs-val check-no">✗</span>
+      <span class="tech-specs-val check-yes">✓</span>
+    </div>
+    <div class="tech-specs-row">
+      <span class="tech-specs-label">NIST Approved</span>
+      <span class="tech-specs-val check-no">✗</span>
+      <span class="tech-specs-val check-yes">✓</span>
+    </div>
+    <div class="tech-specs-row">
+      <span class="tech-specs-label">Security Level</span>
+      <span class="tech-specs-val">NIST Level 1</span>
+      <span class="tech-specs-val" style="color:#FF6B35;">NIST Level 5</span>
+    </div>
+    <div class="tech-specs-row">
+      <span class="tech-specs-label">Signature Scheme</span>
+      <span class="tech-specs-val">Elliptic Curve</span>
+      <span class="tech-specs-val" style="color:#FF6B35;">Module Lattice</span>
+    </div>
+    <div class="tech-specs-row">
+      <span class="tech-specs-label">Vulnerable to Shor's Algorithm</span>
+      <span class="tech-specs-val check-no">✓</span>
+      <span class="tech-specs-val check-yes">✗</span>
+    </div>
+  </div>
+</section>
+
+<!-- SCALABILITY -->
+<section class="tech-section" id="scalability">
+  <div class="tech-section-divider"></div>
+  <span class="tech-section-eyebrow">Scalability</span>
+  <h2 class="tech-section-h2">More secure. Not slower.</h2>
+  <p class="tech-section-intro">Post-quantum cryptography comes with a tradeoff - larger signatures mean fewer transactions per block. Every chain working on quantum security will hit this wall. Quantus already solved it.</p>
+  <div class="tech-stat-block">
+    <span class="tech-stat-label">Throughput Improvement</span>
+    <span class="tech-stat-num">223×</span>
+    <span class="tech-stat-sub">vs raw post-quantum transactions with ZK proof aggregation</span>
+  </div>
+  <p class="tech-stat-desc">Thousands of transactions. One compact proof. Verified on-chain.</p>
+</section>
+
+<!-- CONSENSUS -->
+<section class="tech-section" id="consensus">
+  <div class="tech-section-divider"></div>
+  <span class="tech-section-eyebrow">Consensus</span>
+  <h2 class="tech-section-h2">Proof-of-Work. Built for ZK.</h2>
+  <div class="tech-consensus-block">
+    <p class="tech-consensus-body">Quantus uses Proof-of-Work consensus - the same battle-tested model as Bitcoin. One change: the hash function is optimized for zero-knowledge proof systems, making Quantus's ZK infrastructure natively efficient rather than bolted on.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="tech-cta">
+  <h2 class="tech-cta-h2">The full technical picture.</h2>
+  <p class="tech-cta-sub">Protocol architecture, cryptographic assumptions, and the complete security model - in the Quantus whitepaper.</p>
+  <div class="tech-cta-btns">
+    <a href="#" class="tech-cta-primary">Read Whitepaper</a>
+    <a href="#" class="tech-cta-secondary">Explore Network</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer">
+
+  <div style="position:absolute;bottom:-100px;left:-100px;width:500px;height:500px;background:radial-gradient(circle, rgba(255,107,53,0.12) 0%, transparent 70%);pointer-events:none;z-index:0;"></div>
+  <div style="position:absolute;top:-80px;right:-80px;width:450px;height:450px;background:radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%);pointer-events:none;z-index:0;"></div>
+
+  <div class="footer-left">
+    <a href="#" class="footer-brand-name">QUANTUS</a>
+    <div class="footer-left-bottom">
+      <span class="footer-copy">© 2026 Quantus Network.</span>
+      <span class="footer-copy">All rights reserved.</span>
+    </div>
+  </div>
+
+  <div class="footer-right">
+    <div class="footer-right-top">
+      <div class="footer-col">
+        <span class="footer-col-label">Protocol</span>
+        <a href="#" class="footer-link">Whitepaper</a>
+        <a href="#" class="footer-link">Technology</a>
+        <a href="#" class="footer-link">Network</a>
+        <a href="#" class="footer-link">Wallet</a>
+      </div>
+      <div class="footer-col">
+        <span class="footer-col-label">Community</span>
+        <a href="https://t.me/quantusnetwork" target="_blank" rel="noopener" class="footer-link">Telegram</a>
+        <a href="https://x.com/QuantusNetwork" target="_blank" rel="noopener" class="footer-link">X (Twitter)</a>
+        <a href="https://www.instagram.com/quantusnetwork/" target="_blank" rel="noopener" class="footer-link">Instagram</a>
+        <a href="https://www.youtube.com/@QuantusNetwork" target="_blank" rel="noopener" class="footer-link">YouTube</a>
+      </div>
+      <div class="footer-col">
+        <span class="footer-col-label">Company</span>
+        <a href="#" class="footer-link">About</a>
+        <a href="#" class="footer-link">Blog</a>
+        <a href="#" class="footer-link">QDay Podcast</a>
+        <a href="#" class="footer-link">Contact</a>
+      </div>
+    </div>
+    <div class="footer-right-bottom">
+      <span class="footer-testnet">BUILT ON BELL TESTNET</span>
+    </div>
+  </div>
+
+</footer>
+
+<script src="scripts.js"></script>
+<script>
+/* PAGE-SPECIFIC JS HERE */
+(function(){
+  const eyebrow = document.getElementById('tech-eyebrow');
+  const h1      = document.getElementById('tech-h1');
+  const sub     = document.getElementById('tech-sub');
+
+  // Animate hero in on load
+  window.addEventListener('load', () => {
+    setTimeout(() => eyebrow.classList.add('in'), 100);
+    setTimeout(() => h1.classList.add('in'), 200);
+    setTimeout(() => sub.classList.add('in'), 350);
+  });
+
+  // Show nav
+  const nav = document.querySelector('nav');
+  if(nav) {
+    setTimeout(() => nav.classList.add('visible'), 100);
+  }
+
+  // Animate orange dividers on scroll
+  document.querySelectorAll('.tech-section-divider').forEach(divider => {
+    const obs = new IntersectionObserver(entries => {
+      if(entries[0].isIntersecting){
+        divider.classList.add('expanded');
+        obs.disconnect();
+      }
+    }, { threshold: 0.1 });
+    obs.observe(divider);
+  });
+})();
+</script>
+</body>
+</html>
