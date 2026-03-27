@@ -133,7 +133,21 @@ nav.scrolled { background: rgba(14,14,14,0.95); backdrop-filter: blur(12px); }
 }
 .nav-dl:hover { background: var(--flare); color: var(--void); }
 
-.nav-hamburger { display: none; }
+.nav-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+}
+.nav-hamburger .close-icon { display: none; }
+.nav-hamburger .hamburger-icon { display: block; }
+.nav-hamburger.open .close-icon { display: block; }
+.nav-hamburger.open .hamburger-icon { display: none; }
 
 /* ═══════════════════════════
    NEWSLETTER
@@ -403,21 +417,7 @@ nav.scrolled { background: rgba(14,14,14,0.95); backdrop-filter: blur(12px); }
   .nav-dl { display: none; }
 
   /* Hamburger button */
-  .nav-hamburger {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 4px;
-  }
-  .nav-hamburger span {
-    display: block;
-    width: 22px;
-    height: 1px;
-    background: rgba(232,230,224,0.7);
-  }
+  .nav-hamburger { display: flex; }
 
   /* Mobile menu overlay */
   .mobile-menu {
@@ -427,8 +427,7 @@ nav.scrolled { background: rgba(14,14,14,0.95); backdrop-filter: blur(12px); }
     inset: 0;
     background: #0E0E0E;
     z-index: 999;
-    padding: 40px 32px;
-    gap: 8px;
+    padding: 80px 32px 40px;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
@@ -440,30 +439,52 @@ nav.scrolled { background: rgba(14,14,14,0.95); backdrop-filter: blur(12px); }
   .mobile-menu-links {
     display: flex;
     flex-direction: column;
-    gap: 32px;
     flex: 1;
   }
   .mobile-menu-links a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     font-family: 'Geist', sans-serif;
     font-size: 22px;
-    font-weight: 500;
-    color: rgba(232,230,224,0.9);
+    font-weight: 400;
+    color: #E8E6E0;
     text-decoration: none;
     letter-spacing: -0.01em;
-    padding: 12px 0;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(232,230,224,0.1);
+  }
+  .mobile-menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 32px;
   }
   .mobile-menu-close {
-    position: absolute;
-    top: 20px;
-    right: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
     background: none;
     border: none;
-    color: rgba(232,230,224,0.6);
-    font-family: 'Geist Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
     cursor: pointer;
+    padding: 0;
+    position: relative;
+  }
+  .mobile-menu-close span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: #E8E6E0;
+    position: absolute;
+  }
+  .mobile-menu-close span:nth-child(1) {
+    transform: rotate(45deg);
+  }
+  .mobile-menu-close span:nth-child(2) {
+    transform: rotate(-45deg);
   }
   .mobile-menu-cta {
     display: block;

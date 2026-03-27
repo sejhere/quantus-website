@@ -10,18 +10,16 @@ window.addEventListener('scroll', () => {
 (function(){
   const hamburger = document.getElementById('nav-hamburger');
   const menu      = document.getElementById('mobile-menu');
-  const closeBtn  = document.getElementById('mobile-menu-close');
   if(!hamburger || !menu) return;
 
   hamburger.addEventListener('click', () => {
-    menu.classList.add('open');
-  });
-  closeBtn.addEventListener('click', () => {
-    menu.classList.remove('open');
+    menu.classList.toggle('open');
+    hamburger.classList.toggle('open');
   });
   menu.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       menu.classList.remove('open');
+      hamburger.classList.remove('open');
     });
   });
 })();
