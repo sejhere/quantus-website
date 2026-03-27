@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wallet — Quantus Network</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ═══════════════════════════
+   WALLET PAGE — ALL SECTIONS
+═══════════════════════════ */
+
+/* ── DIVIDER ── */
+.wallet-divider {
+  width: 0;
+  height: 1px;
+  background: #FF6B35;
+  margin-bottom: 0;
+  margin-left: -52px;
+  margin-right: -52px;
+  transition: width 0.8s ease-out;
+}
+.wallet-divider.expanded { width: calc(100% + 104px); }
+
+/* ── HERO ── */
+#wallet-hero {
+  position: relative;
+  height: 100vh;
+  background: #0E0E0E;
+  display: grid;
+  grid-template-columns: 55fr 45fr;
+  align-items: center;
+  padding: 0 52px 48px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+#wallet-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(232,230,224,0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgba(0,0,0,0.6) 60%, black 100%);
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgba(0,0,0,0.6) 60%, black 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#wallet-hero::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: 320px;
+  background:
+    linear-gradient(to bottom, #FF6B35 1px, transparent 1px),
+    linear-gradient(to right, #FF6B35 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
+  -webkit-mask-image: radial-gradient(circle at top right, black 0%, transparent 70%);
+  mask-image: radial-gradient(circle at top right, black 0%, transparent 70%);
+}
+
+.wallet-hero-left {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.wallet-hero-right {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wallet-eyebrow {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #FF6B35;
+  display: block;
+  margin-bottom: 24px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
+}
+.wallet-eyebrow.in { opacity: 1; transform: none; }
+
+.wallet-h1 {
+  font-family: 'Geist', sans-serif;
+  font-size: clamp(36px, 4vw, 60px);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  margin-bottom: 24px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease 0.25s, transform 0.6s ease 0.25s;
+}
+.wallet-h1.in { opacity: 1; transform: none; }
+
+.wallet-sub {
+  font-family: 'Geist', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: rgba(232,230,224,0.6);
+  line-height: 1.6;
+  max-width: 480px;
+  margin-bottom: 40px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease 0.4s, transform 0.5s ease 0.4s;
+}
+.wallet-sub.in { opacity: 1; transform: none; }
+
+.wallet-cta-row {
+  display: flex;
+  gap: 16px;
+  opacity: 0;
+  transition: opacity 0.5s ease 0.55s;
+}
+.wallet-cta-row.in { opacity: 1; }
+
+.wallet-btn-primary {
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: #FF6B35;
+  color: #0E0E0E;
+  border: 1px solid #FF6B35;
+  padding: 14px 32px;
+  text-decoration: none;
+  display: inline-block;
+  transition: opacity 0.18s;
+  white-space: nowrap;
+}
+.wallet-btn-primary:hover { opacity: 0.88; }
+
+.wallet-btn-secondary {
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: transparent;
+  color: rgba(232,230,224,0.7);
+  border: 1px solid rgba(232,230,224,0.2);
+  padding: 14px 32px;
+  text-decoration: none;
+  display: inline-block;
+  transition: border-color 0.18s;
+  white-space: nowrap;
+}
+.wallet-btn-secondary:hover { border-color: rgba(232,230,224,0.5); }
+
+/* ── WHAT MAKES IT DIFFERENT ── */
+#wallet-diff {
+  background: #0E0E0E;
+  position: relative;
+  z-index: 50;
+  padding: 120px 52px 48px;
+}
+
+.wallet-diff-grid {
+  display: grid;
+  grid-template-columns: 55fr 45fr;
+  gap: 80px;
+  align-items: start;
+  margin-top: 64px;
+}
+
+.wallet-section-eyebrow {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(232,230,224,0.35);
+  display: block;
+  margin-bottom: 20px;
+}
+
+.wallet-section-h2 {
+  font-family: 'Geist', sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  line-height: 1.05;
+}
+
+.wallet-diff-h2 {
+  font-size: 42px;
+}
+
+.wallet-diff-body {
+  font-family: 'Geist', sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
+  color: rgba(232,230,224,0.65);
+  padding-top: 8px;
+}
+
+/* ── FEATURES ── */
+#wallet-features {
+  background: #0E0E0E;
+  position: relative;
+  z-index: 1;
+  padding: 80px 52px 48px;
+}
+
+.features-header {
+  margin-top: 64px;
+  margin-bottom: 64px;
+}
+
+.features-header-h2 {
+  font-size: 48px;
+  margin-top: 16px;
+  margin-bottom: 0;
+}
+
+.features-stack {
+  display: block;
+  position: relative;
+  overflow: visible;
+}
+
+.feature-card {
+  position: sticky;
+  background: #181818;
+  border: 1px solid rgba(232,230,224,0.08);
+  height: 560px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  margin-bottom: 24px;
+  width: 100%;
+}
+.feature-card:nth-child(1) { top: 80px; z-index: 1; }
+.feature-card:nth-child(2) { top: 160px; z-index: 2; }
+.feature-card:nth-child(3) { top: 240px; z-index: 3; }
+.feature-card:nth-child(4) { top: 320px; z-index: 4; }
+
+
+.feature-card-left {
+  padding: 64px 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.feature-num {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: rgba(232,230,224,0.25);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 28px;
+  display: block;
+}
+
+.feature-title {
+  font-family: 'Geist', sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 1.1;
+  margin-bottom: 18px;
+}
+
+.feature-body {
+  font-family: 'Geist', sans-serif;
+  font-size: 15px;
+  color: rgba(232,230,224,0.6);
+  line-height: 1.7;
+  max-width: 380px;
+}
+
+.feature-card-right {
+  background: #0E0E0E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 40px;
+}
+
+.feature-card-right img {
+  max-height: 460px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* ── WHY IT MATTERS ── */
+#wallet-why {
+  background: #0E0E0E;
+  position: relative;
+  z-index: 50;
+  padding: 0 52px 48px;
+}
+
+.wallet-why-inner {
+  padding-top: 80px;
+}
+
+.wallet-why-h2 {
+  font-size: 48px;
+  max-width: 680px;
+  margin-top: 16px;
+}
+
+.wallet-why-body {
+  font-family: 'Geist', sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
+  color: rgba(232,230,224,0.65);
+  max-width: 640px;
+  margin-top: 28px;
+}
+
+.wallet-stat-bar {
+  margin-top: 64px;
+  border: 1px solid rgba(232,230,224,0.08);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.wallet-stat-col {
+  padding: 40px 36px;
+  border-right: 1px solid rgba(232,230,224,0.08);
+}
+.wallet-stat-col:last-child { border-right: none; }
+
+.wallet-stat-num {
+  font-family: 'Geist Mono', monospace;
+  font-size: 48px;
+  font-weight: 500;
+  color: #FF6B35;
+  display: block;
+  line-height: 1;
+}
+
+.wallet-stat-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: rgba(232,230,224,0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  display: block;
+  margin-top: 12px;
+}
+
+/* ── CTA ── */
+#wallet-cta {
+  background: #0E0E0E;
+  position: relative;
+  z-index: 50;
+  padding: 120px 52px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-top: 1px solid rgba(232,230,224,0.08);
+}
+
+.wallet-cta-h2 {
+  font-family: 'Geist', sans-serif;
+  font-size: 52px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.wallet-cta-sub {
+  font-family: 'Geist', sans-serif;
+  font-size: 18px;
+  color: rgba(232,230,224,0.55);
+  margin-top: 16px;
+}
+
+.wallet-cta-btn-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.wallet-cta-note {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: rgba(232,230,224,0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin-top: 28px;
+}
+
+/* ── SCROLL ANIMATIONS ── */
+.wallet-animate {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.wallet-animate.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  #wallet-hero {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 100vh;
+    padding: 100px 24px 60px;
+  }
+  .wallet-hero-right { display: none; }
+  .wallet-h1 { font-size: clamp(30px, 8vw, 44px); }
+  .wallet-sub { font-size: 16px; }
+  .wallet-cta-row { flex-direction: column; }
+  .wallet-btn-primary,
+  .wallet-btn-secondary { width: 100%; text-align: center; }
+
+  .wallet-divider { margin-left: -24px; margin-right: -24px; }
+  .wallet-divider.expanded { width: calc(100% + 48px); }
+
+  #wallet-diff { padding: 80px 24px 48px; }
+  .wallet-diff-grid { grid-template-columns: 1fr; gap: 32px; margin-top: 40px; }
+  .wallet-diff-h2 { font-size: 28px; }
+
+  #wallet-features { padding: 80px 24px 48px; }
+  .features-stack { height: auto; }
+  .features-header-h2 { font-size: 32px; }
+  .feature-card {
+    height: auto;
+    grid-template-columns: 1fr;
+  }
+  .feature-card:nth-child(1) { top: 40px; }
+  .feature-card:nth-child(2) { top: 80px; }
+  .feature-card:nth-child(3) { top: 120px; }
+  .feature-card:nth-child(4) { top: 160px; }
+  .feature-card-left { padding: 32px 24px; }
+  .feature-card-right { padding: 32px 24px; }
+  .feature-card-right img { max-height: 300px; }
+
+  #wallet-why { padding: 80px 24px 48px; }
+  .wallet-why-h2 { font-size: clamp(26px, 7vw, 38px); }
+  .wallet-stat-bar { grid-template-columns: 1fr; }
+  .wallet-stat-col { border-right: none; border-bottom: 1px solid rgba(232,230,224,0.08); }
+  .wallet-stat-col:last-child { border-bottom: none; }
+  .wallet-stat-num { font-size: 36px; }
+
+  #wallet-cta { padding: 80px 24px; }
+  .wallet-cta-h2 { font-size: 32px; }
+  .wallet-cta-btn-row { flex-direction: column; width: 100%; }
+  .wallet-cta-btn-row .wallet-btn-primary,
+  .wallet-cta-btn-row .wallet-btn-secondary { width: 100%; text-align: center; box-sizing: border-box; }
+}
+</style>
+</head>
+<body>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-menu-close" id="mobile-menu-close">CLOSE ✕</button>
+  <div class="mobile-menu-links">
+    <a href="technology.html">Technology</a>
+    <a href="wallet.html">Wallet</a>
+    <a href="about.html">About</a>
+    <a href="community.html">Community</a>
+    <a href="quantum-risk-checker.html">Q-Day Checker</a>
+    <a href="quan.html">Quan</a>
+  </div>
+  <a href="#" class="mobile-menu-cta wallet-cta-link" target="_blank" rel="noopener">Download Wallet</a>
+</div>
+
+<!-- NAV -->
+<nav>
+    <!-- QUANTUS LOGO - extracted from perfect_Q_3.svg -->
+    <!-- Q mark viewBox region: ~480-810 x 1126-1455, wordmark: 832-2082 x 1238-1420 -->
+    <a href="index.html" class="logo">
+      <svg viewBox="0 0 1657 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M269.654 320L160.891 211.138L179.29 192.738L288.053 301.6L269.654 320Z" fill="#FF6B35"/>
+        <path d="M192.805 179.225L211.197 160.833L319.978 269.677L301.575 288.08L192.805 179.225Z" fill="#FF6B35"/>
+        <path d="M308.465 124.709C307.659 120.7 306.69 116.751 305.568 112.875C294.853 75.0657 269.816 44.3815 238.04 24.6476C208.27 5.74302 172.341 -3.5182 135.873 1.22843C129.359 2.03375 122.844 3.27928 116.368 4.98889C94.4841 10.6432 73.2044 21.5321 54.0473 38.4166C54.0268 38.4337 54.0064 38.4508 53.9893 38.4678C53.8801 38.5634 53.7709 38.6623 53.6651 38.7579C53.3648 39.024 53.0611 39.2936 52.7608 39.5666C52.6107 39.7031 52.4605 39.8362 52.3138 39.9727C52.0306 40.232 51.7439 40.4914 51.4607 40.7507C51.198 40.9896 50.9386 41.2318 50.6793 41.4741C50.5598 41.5867 50.437 41.6994 50.3176 41.812C49.5293 42.549 48.7479 43.2895 47.9801 44.0334C46.0555 45.8659 44.148 47.7632 42.2643 49.7219C40.8414 51.2745 39.4559 52.8408 38.1081 54.4173C22.4179 72.3869 11.9657 92.1481 6.11009 112.486C4.2947 118.649 2.90586 124.846 1.9265 131.049C-4.56045 170.701 5.71084 209.896 27.0758 241.577C48.7922 274.544 82.493 299.689 123.554 308.19C127.267 308.981 131.031 309.63 134.846 310.138C153.29 312.68 172.761 311.8 192.672 306.76C193.433 306.582 194.194 306.402 194.955 306.211V306.204C196.453 305.811 197.955 305.398 199.449 304.958L199.401 304.9C200.633 304.532 201.868 304.146 203.104 303.747C205.54 302.979 207.987 302.153 210.437 301.263L210.43 301.256C211.884 300.706 213.334 300.14 214.774 299.546L214.726 299.498C216.566 298.751 218.408 297.966 220.251 297.144L190.191 267.057C189.782 267.183 189.376 267.313 188.963 267.432L188.946 267.415C187.315 267.913 185.684 268.371 184.049 268.79H184.046C182.408 269.193 180.763 269.565 179.104 269.899L179.087 269.882C176.491 270.435 173.894 270.892 171.304 271.254C169.898 271.442 168.485 271.609 167.069 271.742L167.055 271.725C163.428 272.107 159.821 272.308 156.245 272.339C132.761 272.387 110.004 265.115 90.9113 252.332C87.1372 249.794 83.5099 247.036 80.0497 244.085C63.6634 230.009 51.1058 211.51 44.4892 190.534C43.0355 185.815 41.8787 180.952 41.0427 175.956C40.7663 174.489 40.524 173.022 40.3124 171.554C40.0702 169.678 39.8688 167.787 39.7187 165.883C39.5788 164.47 39.4696 163.057 39.3877 161.652C39.2717 159.031 39.2478 156.39 39.3194 153.728C39.3672 147.033 40.0156 140.468 41.2065 134.08C44.9294 114.885 53.532 96.9869 65.7552 82.0269C83.1072 61.0305 107.584 46.0809 134.836 41.0339C138.374 40.4095 141.971 39.9556 145.622 39.6724C147.475 39.495 149.321 39.3653 151.16 39.28C152.693 39.2322 154.232 39.2151 155.781 39.2322C157.388 39.2185 158.988 39.2424 160.582 39.2936C163.039 39.4131 165.506 39.6144 167.983 39.901C175.743 40.6517 183.227 42.1737 190.382 44.3747C211.034 50.8855 229.328 63.1394 243.37 79.164C243.558 79.3789 243.745 79.5939 243.933 79.8123C243.984 79.8703 244.032 79.9283 244.083 79.9863C246.431 82.7299 248.656 85.5793 250.748 88.5276C263.141 106.081 270.802 126.951 272.201 148.787C272.211 148.978 272.225 149.172 272.235 149.364C272.58 155.967 272.351 162.699 271.491 169.5L271.549 169.551C271.137 172.872 270.573 176.202 269.853 179.536L269.939 179.621C269.185 183.153 268.25 186.685 267.137 190.203L297.153 220.242C298.558 217.072 299.855 213.909 301.046 210.749L301.131 210.834C302.032 208.326 302.872 205.828 303.65 203.337C304.24 201.522 304.796 199.713 305.318 197.905L305.376 197.953C305.626 197.007 305.864 196.066 306.096 195.124C312.717 170.616 313.054 146.791 308.465 124.699V124.709Z" fill="#FF6B35"/>
+        <path d="M442.153 289.168C411.192 289.168 388.566 283.346 374.276 271.702C359.854 260.059 352.709 241.138 352.709 215.204V108.162H394.52V210.97C394.52 226.848 398.093 238.227 405.502 245.107C412.912 252.12 424.952 255.56 441.889 255.56C458.825 255.56 470.998 252.12 478.407 245.24C485.685 238.359 489.389 226.848 489.389 210.97V108.162H530.804V215.204C530.804 241.27 523.659 260.059 509.501 271.702C495.344 283.346 472.85 289.168 442.153 289.168ZM759.903 287.051H716.239L701.42 252.12H607.609L592.393 287.051H550.979L630.897 108.162H680.25L759.903 287.051ZM649.024 157.515L620.312 223.408H689.115L660.932 157.515L655.904 143.225H654.184L649.024 157.515ZM827.844 287.051H788.017V108.162H836.444L916.362 215.998L931.048 236.904L932.107 236.639L931.313 202.502V108.162H971.14V287.051H921.257L827.844 160.823L826.917 161.088L827.844 195.225V287.051ZM1180.66 108.162V141.505H1112.38V287.051H1070.7V141.505H1002.03V108.162H1180.66ZM1300.6 289.168C1269.63 289.168 1247.01 283.346 1232.72 271.702C1218.3 260.059 1211.15 241.138 1211.15 215.204V108.162H1252.96V210.97C1252.96 226.848 1256.54 238.227 1263.95 245.107C1271.35 252.12 1283.4 255.56 1300.33 255.56C1317.27 255.56 1329.44 252.12 1336.85 245.24C1344.13 238.359 1347.83 226.848 1347.83 210.97V108.162H1389.25V215.204C1389.25 241.27 1382.1 260.059 1367.94 271.702C1353.79 283.346 1331.29 289.168 1300.6 289.168ZM1516.86 289.168C1486.83 289.168 1464.46 284.669 1449.78 275.539C1434.96 266.542 1426.89 251.855 1425.43 231.743H1466.18C1466.98 241.932 1471.61 249.209 1479.81 253.708C1488.02 258.206 1500.32 260.456 1516.86 260.456C1532.21 260.456 1543.32 258.339 1550.2 253.84C1557.08 249.341 1560.66 243.519 1560.66 236.11C1560.66 231.347 1559.2 227.509 1556.29 224.731C1553.38 221.952 1547.69 219.571 1539.49 217.454C1531.28 215.337 1519.11 213.484 1502.97 211.764C1491.19 210.573 1481.27 209.118 1473.07 207.265C1464.86 205.545 1457.72 203.428 1451.63 200.782C1445.54 198.268 1440.91 195.225 1437.47 191.52C1434.03 187.815 1431.39 183.713 1429.8 178.95C1428.21 174.187 1427.42 168.63 1427.42 162.146C1427.42 155.531 1428.34 149.444 1430.33 143.887C1432.31 138.33 1435.49 133.302 1439.99 128.539C1444.35 123.775 1449.91 119.806 1456.53 116.498C1463.14 113.322 1471.21 110.676 1480.87 108.824C1490.53 106.971 1501.38 106.045 1513.55 106.045C1540.94 106.045 1561.58 110.544 1575.61 119.277C1589.63 128.142 1597.31 141.638 1598.63 159.632L1559.33 159.368C1558.54 151.164 1554.44 144.945 1546.76 140.711C1539.09 136.61 1527.18 134.493 1511.17 134.493C1496.88 134.493 1486.3 136.61 1479.28 140.711C1472.27 144.945 1468.83 150.503 1468.83 157.515C1468.83 162.279 1470.29 165.983 1473.2 168.63C1476.11 171.276 1481.53 173.525 1489.6 175.378C1497.68 177.23 1509.85 178.95 1525.99 180.538C1540.81 182.126 1552.98 184.11 1562.51 186.492C1572.04 188.874 1579.71 192.049 1585.8 196.019C1591.75 199.988 1595.98 204.751 1598.37 210.309C1600.75 215.866 1601.94 222.746 1601.94 230.95C1601.94 239.418 1600.22 247.224 1597.04 254.105C1593.87 260.985 1588.84 267.204 1582.22 272.496C1575.61 277.789 1566.74 281.891 1555.63 284.801C1544.51 287.712 1531.68 289.168 1516.86 289.168Z" fill="#FF6B35"/>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="technology.html">Technology</a></li>
+      <li><a href="wallet.html" class="nav-active">Wallet</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="community.html">Community</a></li>
+      <li><a href="quantum-risk-checker.html">Q-Day Checker</a></li>
+      <li><a href="quan.html">Quan</a></li>
+    </ul>
+    <a href="#" class="nav-dl wallet-cta-link" target="_blank" rel="noopener">Download Wallet</a>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+</nav>
+
+<!-- HERO -->
+<section id="wallet-hero">
+  <div class="wallet-hero-left">
+    <span class="wallet-eyebrow" id="wallet-eyebrow">THE QUANTUS WALLET</span>
+    <h1 class="wallet-h1" id="wallet-h1">Quantum-secure from the ground up. In your pocket.</h1>
+    <p class="wallet-sub" id="wallet-sub">Send, receive, and secure your assets with post-quantum cryptography built into every transaction. Available on iOS and Android.</p>
+    <div class="wallet-cta-row" id="wallet-cta-row">
+      <a href="https://apps.apple.com/us/app/quantus/id6747967405" class="wallet-btn-primary" target="_blank" rel="noopener">Download on App Store</a>
+      <a href="https://play.google.com/store/apps/details?id=com.quantus.wallet" class="wallet-btn-secondary" target="_blank" rel="noopener">Download on Google Play</a>
+    </div>
+  </div>
+  <div class="wallet-hero-right">
+    <svg width="260" height="480" viewBox="0 0 260 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer phone rect -->
+      <rect x="10" y="10" width="240" height="460" stroke="rgba(232,230,224,0.15)" stroke-width="1" fill="none"/>
+      <!-- Corner dots -->
+      <circle cx="10" cy="10" r="2.5" fill="rgba(232,230,224,0.3)"/>
+      <circle cx="250" cy="10" r="2.5" fill="rgba(232,230,224,0.3)"/>
+      <circle cx="250" cy="470" r="2.5" fill="rgba(232,230,224,0.3)"/>
+      <circle cx="10" cy="470" r="2.5" fill="rgba(232,230,224,0.3)"/>
+      <!-- Dynamic island -->
+      <rect x="90" y="16" width="80" height="10" fill="rgba(232,230,224,0.1)"/>
+      <!-- Inner screen rect -->
+      <rect x="22" y="30" width="216" height="380" stroke="rgba(232,230,224,0.08)" stroke-width="0.75" fill="none"/>
+      <!-- Dashed horizontal centre line across screen -->
+      <line x1="22" y1="220" x2="238" y2="220" stroke="rgba(232,230,224,0.05)" stroke-width="0.75" stroke-dasharray="3,4"/>
+      <!-- Quantus Q logomark -->
+      <svg x="83" y="173" width="94" height="94" viewBox="0 0 1000 1000">
+        <path d="M790.222 937.76L471.492 618.74L525.412 564.82L844.142 883.84L790.222 937.76Z" fill="#FF6B35" opacity="0.7"/>
+        <path d="M565.016 525.22L618.916 471.32L937.696 790.29L883.766 844.22L565.016 525.22Z" fill="#FF6B35" opacity="0.7"/>
+        <path d="M903.956 365.46C901.596 353.71 898.756 342.14 895.466 330.78C864.066 219.98 790.696 130.06 697.576 72.2299C610.336 16.8299 505.046 -10.3101 398.176 3.59991C379.086 5.95991 359.996 9.60993 341.016 14.6199C276.886 31.1899 214.526 63.1 158.386 112.58C158.326 112.63 158.266 112.68 158.216 112.73C157.896 113.01 157.576 113.3 157.266 113.58C156.386 114.36 155.496 115.15 154.616 115.95C154.176 116.35 153.736 116.74 153.306 117.14C152.476 117.9 151.636 118.66 150.806 119.42C150.036 120.12 149.276 120.83 148.516 121.54C148.166 121.87 147.806 122.2 147.456 122.53C145.146 124.69 142.856 126.86 140.606 129.04C134.966 134.41 129.376 139.97 123.856 145.71C119.686 150.26 115.626 154.85 111.676 159.47C65.6956 212.13 35.0656 270.04 17.9056 329.64C12.5856 347.7 8.51561 365.86 5.64561 384.04C-13.3644 500.24 16.7356 615.1 79.3456 707.94C142.986 804.55 241.746 878.24 362.076 903.15C372.956 905.47 383.986 907.37 395.166 908.86C449.216 916.31 506.276 913.73 564.626 898.96C566.856 898.44 569.086 897.91 571.316 897.35V897.33C575.706 896.18 580.106 894.97 584.486 893.68L584.346 893.51C587.956 892.43 591.576 891.3 595.196 890.13C602.336 887.88 609.506 885.46 616.686 882.85L616.666 882.83C620.926 881.22 625.176 879.56 629.396 877.82L629.256 877.68C634.646 875.49 640.046 873.19 645.446 870.78L557.356 782.61C556.156 782.98 554.966 783.36 553.756 783.71L553.706 783.66C548.926 785.12 544.146 786.46 539.356 787.69H539.346C534.546 788.87 529.726 789.96 524.866 790.94L524.816 790.89C517.206 792.51 509.596 793.85 502.006 794.91C497.886 795.46 493.746 795.95 489.596 796.34L489.556 796.29C478.926 797.41 468.356 798 457.876 798.09C389.056 798.23 322.366 776.92 266.416 739.46C255.356 732.02 244.726 723.94 234.586 715.29C186.566 674.04 149.766 619.83 130.376 558.36C126.116 544.53 122.726 530.28 120.276 515.64C119.466 511.34 118.756 507.04 118.136 502.74C117.426 497.24 116.836 491.7 116.396 486.12C115.986 481.98 115.666 477.84 115.426 473.72C115.086 466.04 115.016 458.3 115.226 450.5C115.366 430.88 117.266 411.64 120.756 392.92C131.666 336.67 156.876 284.22 192.696 240.38C243.546 178.85 315.276 135.04 395.136 120.25C405.506 118.42 416.046 117.09 426.746 116.26C432.176 115.74 437.586 115.36 442.976 115.11C447.466 114.97 451.976 114.92 456.516 114.97C461.226 114.93 465.916 115 470.586 115.15C477.786 115.5 485.016 116.09 492.276 116.93C515.016 119.13 536.946 123.59 557.916 130.04C618.436 149.12 672.046 185.03 713.196 231.99C713.746 232.62 714.296 233.25 714.846 233.89C714.996 234.06 715.136 234.23 715.286 234.4C722.166 242.44 728.686 250.79 734.816 259.43C771.136 310.87 793.586 372.03 797.686 436.02C797.716 436.58 797.756 437.15 797.786 437.71C798.796 457.06 798.126 476.79 795.606 496.72L795.776 496.87C794.566 506.6 792.916 516.36 790.806 526.13L791.056 526.38C788.846 536.73 786.106 547.08 782.846 557.39L870.806 645.42C874.926 636.13 878.726 626.86 882.216 617.6L882.466 617.85C885.106 610.5 887.566 603.18 889.846 595.88C891.576 590.56 893.206 585.26 894.736 579.96L894.906 580.1C895.636 577.33 896.336 574.57 897.016 571.81C916.416 499.99 917.406 430.17 903.956 365.43V365.46Z" fill="#FF6B35" opacity="0.7"/>
+      </svg>
+      <!-- ML-DSA label -->
+      <text x="130" y="282" font-family="Geist Mono, monospace" font-size="10" fill="rgba(232,230,224,0.25)" text-anchor="middle" letter-spacing="0.1em">ML-DSA-87</text>
+      <!-- Home indicator -->
+      <line x1="95" y1="455" x2="165" y2="455" stroke="rgba(232,230,224,0.2)" stroke-width="1.5"/>
+    </svg>
+  </div>
+</section>
+
+<!-- WHAT MAKES IT DIFFERENT -->
+<section id="wallet-diff">
+  <div class="wallet-divider"></div>
+  <div class="wallet-diff-grid">
+    <div class="wallet-diff-left wallet-animate" data-delay="0">
+      <span class="wallet-section-eyebrow">BUILT DIFFERENTLY</span>
+      <h2 class="wallet-section-h2 wallet-diff-h2">Security that starts at the chain.</h2>
+    </div>
+    <div class="wallet-diff-right wallet-animate" data-delay="0.15">
+      <p class="wallet-diff-body">Most wallets are only as secure as the blockchain underneath them. Every existing chain uses elliptic curve cryptography, the kind a sufficiently powerful quantum computer can break. Quantus is built differently. Post-quantum cryptography is the foundation of the chain, not a feature added on top. Your wallet inherits that security by default.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="wallet-features">
+  <div class="wallet-divider"></div>
+  <div class="features-header">
+    <span class="wallet-section-eyebrow wallet-animate" data-delay="0">FEATURES</span>
+    <h2 class="wallet-section-h2 features-header-h2 wallet-animate" data-delay="0.15">Designed for security. Built for humans.</h2>
+  </div>
+  <div class="features-stack">
+    <!-- Card 1 -->
+    <div class="feature-card">
+      <div class="feature-card-left">
+        <span class="feature-num">01</span>
+        <h3 class="feature-title">Reversible Transactions</h3>
+        <p class="feature-body">Set a time window on outgoing transfers. Changed your mind? Cancel before the window closes. A safety net that does not compromise finality.</p>
+      </div>
+      <div class="feature-card-right">
+        <img src="images/Reversible_Transactions.png" alt="Reversible Transactions">
+      </div>
+    </div>
+    <!-- Card 2 -->
+    <div class="feature-card">
+      <div class="feature-card-left">
+        <span class="feature-num">02</span>
+        <h3 class="feature-title">Check-Phrases</h3>
+        <p class="feature-body">Every Quantus address has a human-readable checksum. A short sequence of memorable words generated from your address. Verify the phrase before you send. Protection against typos, copy-paste tampering, and address poisoning attacks.</p>
+      </div>
+      <div class="feature-card-right">
+        <img src="images/Checkphrases.png" alt="Check-Phrases">
+      </div>
+    </div>
+    <!-- Card 3 -->
+    <div class="feature-card">
+      <div class="feature-card-left">
+        <span class="feature-num">03</span>
+        <h3 class="feature-title">High-Security Accounts</h3>
+        <p class="feature-body">Assign a guardian to your account. A hardware wallet, multisig, or trusted party. Any suspicious transaction can be cancelled during a reversal period. Opt-in, permanent, and composable.</p>
+      </div>
+      <div class="feature-card-right">
+        <img src="images/High_Security_Accounts.png" alt="High Security Accounts">
+      </div>
+    </div>
+    <!-- Card 4 -->
+    <div class="feature-card">
+      <div class="feature-card-left">
+        <span class="feature-num">04</span>
+        <h3 class="feature-title">Encrypt Your Funds</h3>
+        <p class="feature-body">Every transaction on Quantus is signed with ML-DSA, a NIST-approved post-quantum algorithm. Your funds are encrypted at the protocol level, not the app level. No patch. No migration. Already there.</p>
+      </div>
+      <div class="feature-card-right">
+        <img src="images/Encrypt_your_funds.png" alt="Encrypt Your Funds">
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- WHY IT MATTERS -->
+<section id="wallet-why">
+  <div class="wallet-divider"></div>
+  <div class="wallet-why-inner">
+  <span class="wallet-section-eyebrow wallet-animate" data-delay="0">WHY IT MATTERS</span>
+  <h2 class="wallet-section-h2 wallet-why-h2 wallet-animate" data-delay="0.15">Your wallet today. Still safe when quantum arrives.</h2>
+  <p class="wallet-why-body wallet-animate" data-delay="0.3">Most crypto users will not know when quantum computers become a real threat. By then, migrating to a secure wallet will be chaotic, slow, and expensive. The Quantus wallet means you do not have to think about it. You are already on the right side of the shift.</p>
+  <div class="wallet-stat-bar">
+    <div class="wallet-stat-col wallet-animate" data-delay="0">
+      <span class="wallet-stat-num">4,200</span>
+      <span class="wallet-stat-label">TPS ON QUANTUS</span>
+    </div>
+    <div class="wallet-stat-col wallet-animate" data-delay="0.15">
+      <span class="wallet-stat-num">NIST 5</span>
+      <span class="wallet-stat-label">SECURITY LEVEL</span>
+    </div>
+    <div class="wallet-stat-col wallet-animate" data-delay="0.3">
+      <span class="wallet-stat-num">0</span>
+      <span class="wallet-stat-label">MIGRATION REQUIRED</span>
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="wallet-cta">
+  <h2 class="wallet-cta-h2 wallet-animate" data-delay="0">Own quantum-secure assets.</h2>
+  <p class="wallet-cta-sub wallet-animate" data-delay="0.15">Free to download. Available worldwide.</p>
+  <div class="wallet-cta-btn-row wallet-animate" data-delay="0.3">
+    <a href="https://apps.apple.com/us/app/quantus/id6747967405" class="wallet-btn-primary" target="_blank" rel="noopener">Download on App Store</a>
+    <a href="https://play.google.com/store/apps/details?id=com.quantus.wallet" class="wallet-btn-secondary" target="_blank" rel="noopener">Download on Google Play</a>
+  </div>
+  <span class="wallet-cta-note wallet-animate" data-delay="0.45">Public beta available now on iOS and Android</span>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer">
+
+  <div style="position:absolute;bottom:-100px;left:-100px;width:500px;height:500px;background:radial-gradient(circle, rgba(255,107,53,0.12) 0%, transparent 70%);pointer-events:none;z-index:0;"></div>
+  <div style="position:absolute;top:-80px;right:-80px;width:450px;height:450px;background:radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%);pointer-events:none;z-index:0;"></div>
+
+  <div class="footer-left">
+    <a href="index.html" class="footer-brand-name">QUANTUS</a>
+    <div class="footer-left-bottom">
+      <span class="footer-copy">© 2026 Quantus Network.</span>
+      <span class="footer-copy">All rights reserved.</span>
+    </div>
+  </div>
+
+  <div class="footer-right">
+    <div class="footer-right-top">
+      <div class="footer-col">
+        <span class="footer-col-label">Protocol</span>
+        <a href="https://www.quantus.com/whitepaper/" class="footer-link" target="_blank" rel="noopener">Whitepaper</a>
+        <a href="technology.html" class="footer-link">Technology</a>
+        <a href="https://explorer.quantus.com/" target="_blank" rel="noopener" class="footer-link">Network</a>
+        <a href="wallet.html" class="footer-link">Wallet</a>
+        <a href="https://research.quantus.com/" target="_blank" rel="noopener" class="footer-link">Research</a>
+        <a href="https://github.com/Quantus-Network/chain" target="_blank" rel="noopener" class="footer-link">Documentation</a>
+      </div>
+      <div class="footer-col">
+        <span class="footer-col-label">Community</span>
+        <a href="https://t.me/quantusnetwork" target="_blank" rel="noopener" class="footer-link">Telegram</a>
+        <a href="https://x.com/QuantusNetwork" target="_blank" rel="noopener" class="footer-link">X (Twitter)</a>
+        <a href="https://www.instagram.com/quantusnetwork/" target="_blank" rel="noopener" class="footer-link">Instagram</a>
+        <a href="https://www.youtube.com/@QuantusNetwork" target="_blank" rel="noopener" class="footer-link">YouTube</a>
+      </div>
+      <div class="footer-col">
+        <span class="footer-col-label">Company</span>
+        <a href="about.html" class="footer-link">About</a>
+        <a href="blog/" class="footer-link">Blog</a>
+        <a href="community.html" class="footer-link">QDay Podcast</a>
+        <a href="about.html#contact" class="footer-link">Contact</a>
+        <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
+        <a href="terms.html" class="footer-link">Terms of Service</a>
+      </div>
+    </div>
+    <div class="footer-right-bottom">
+      <span class="footer-testnet">BUILT ON BELL TESTNET</span>
+    </div>
+  </div>
+
+</footer>
+
+<script>
+(function(){
+  const eyebrow  = document.getElementById('wallet-eyebrow');
+  const h1       = document.getElementById('wallet-h1');
+  const sub      = document.getElementById('wallet-sub');
+  const ctaRow   = document.getElementById('wallet-cta-row');
+  const nav      = document.querySelector('nav');
+
+  // Nav visible
+  window.addEventListener('load', () => {
+    if(nav) nav.classList.add('visible');
+
+    // Hero entrance
+    setTimeout(() => eyebrow.classList.add('in'), 100);
+    setTimeout(() => h1.classList.add('in'), 250);
+    setTimeout(() => sub.classList.add('in'), 400);
+    setTimeout(() => ctaRow.classList.add('in'), 550);
+  });
+
+  // Orange dividers expand on scroll
+  document.querySelectorAll('.wallet-divider').forEach(el => {
+    new IntersectionObserver(([e]) => {
+      if(e.isIntersecting){ el.classList.add('expanded'); }
+    }, { threshold: 0.1 }).observe(el);
+  });
+
+  // Scroll animations
+  document.querySelectorAll('.wallet-animate').forEach(el => {
+    new IntersectionObserver(([e]) => {
+      if(e.isIntersecting){
+        const delay = el.dataset.delay || '0';
+        el.style.transitionDelay = delay + 's';
+        el.classList.add('in');
+      }
+    }, { threshold: 0.15 }).observe(el);
+  });
+})();
+</script>
+<script src="scripts.js"></script>
+</body>
+</html>
