@@ -544,8 +544,8 @@
     </div>
     <div class="qrc-tool-body">
       <div id="qrc-input-state">
-        <label class="qrc-field-label" for="qrc-address-input">ETHEREUM ADDRESS</label>
-        <input type="text" id="qrc-address-input" placeholder="0x..." autocomplete="off" spellcheck="false">
+        <label class="qrc-field-label" for="qrc-address-input">ETHEREUM ADDRESS OR ENS NAME</label>
+        <input type="text" id="qrc-address-input" placeholder="0x... or name.eth" autocomplete="off" spellcheck="false">
         <span id="qrc-error">Please enter a valid Ethereum address (0x... 42 characters).</span>
         <button id="qrc-scan-btn">CHECK NOW →</button>
         <span class="qrc-fine-print">Reads public blockchain data only. No private keys required.</span>
@@ -643,6 +643,7 @@
         <a href="about.html#contact" class="footer-link">Contact</a>
         <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
         <a href="terms.html" class="footer-link">Terms of Service</a>
+        <a href="https://www.coingecko.com/en/coins/quantus" target="_blank" rel="noopener" class="footer-link">CoinGecko</a>
       </div>
     </div>
     <div class="footer-right-bottom">
@@ -709,41 +710,92 @@
     return exposure === 'EXPOSED' ? '#ef4444' : '#4ade80';
   }
 
-  btn.addEventListener('click', () => {
-    const addr = input.value.trim();
+  btn.addEventListener('click', async () => {
+    const raw = input.value.trim();
     error.style.display = 'none';
-    if (!addr.startsWith('0x') || addr.length !== 42) {
+
+    if (!raw) {
+      error.textContent = 'Please enter an Ethereum address or ENS name.';
       error.style.display = 'block';
       return;
     }
-    btn.textContent = 'SCANNING...';
-    btn.disabled = true;
-    input.disabled = true;
 
-    const score         = getScore(addr);
-    const grade         = getGrade(score);
-    const risk          = getRiskLevel(score);
-    const exposure      = getExposure(score);
-    const advice        = getAdvice(score);
-    const scoreColor    = getScoreColor(score);
+    let addr = raw;
+
+    // ENS resolution
+    if (raw.toLowerCase().endsWith('.eth') || (!raw.startsWith('0x') && raw.includes('.'))) {
+      btn.textContent = 'RESOLVING ENS...';
+      btn.disabled = true;
+      input.disabled = true;
+
+      try {
+        const response = await fetch('https://cloudflare-eth.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            jsonrpc: '2.0',
+            method: 'eth_call',
+            params: [{
+              to: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e',
+              data: '0x0178b8bf' + '0000000000000000000000000000000000000000000000000000000000000000'
+            }, 'latest'],
+            id: 1
+          })
+        });
+
+        // Use a simpler ENS resolution via public API
+        const ensResponse = await fetch(`https://api.ensideas.com/ens/resolve/${encodeURIComponent(raw)}`);
+        const ensData = await ensResponse.json();
+
+        if (ensData && ensData.address) {
+          addr = ensData.address;
+          btn.textContent = 'SCANNING...';
+        } else {
+          throw new Error('Could not resolve ENS name');
+        }
+      } catch (e) {
+        btn.textContent = 'CHECK NOW →';
+        btn.disabled = false;
+        input.disabled = false;
+        error.textContent = 'Could not resolve ENS name. Please check it is correct or use a 0x address.';
+        error.style.display = 'block';
+        return;
+      }
+    } else if (!raw.startsWith('0x') || raw.length !== 42) {
+      error.textContent = 'Please enter a valid Ethereum address (0x... 42 characters) or ENS name.';
+      error.style.display = 'block';
+      return;
+    } else {
+      btn.textContent = 'SCANNING...';
+      btn.disabled = true;
+      input.disabled = true;
+    }
+
+    const score = getScore(addr);
+    const grade = getGrade(score);
+    const risk = getRiskLevel(score);
+    const exposure = getExposure(score);
+    const advice = getAdvice(score);
+    const scoreColor = getScoreColor(score);
     const exposureColor = getExposureColor(exposure);
-    const shortAddr     = addr.slice(0, 10) + '...' + addr.slice(-6);
+    const shortAddr = addr.slice(0, 10) + '...' + addr.slice(-6);
+    const displayLabel = raw.toLowerCase().endsWith('.eth') ? raw + ' (' + shortAddr + ')' : shortAddr;
 
     const lines = [
-      { text: '> INITIALISING QUANTUM RISK SCAN...', delay: 0,    color: 'rgba(232,230,224,0.5)' },
-      { text: '> ADDRESS: ' + shortAddr,             delay: 300,  color: 'rgba(232,230,224,0.7)' },
-      { text: '> CHECKING PUBLIC KEY EXPOSURE...',   delay: 700,  color: 'rgba(232,230,224,0.5)' },
-      { text: '> ANALYSING BALANCE SENSITIVITY...',  delay: 1100, color: 'rgba(232,230,224,0.5)' },
+      { text: '> INITIALISING QUANTUM RISK SCAN...', delay: 0, color: 'rgba(232,230,224,0.5)' },
+      { text: '> ADDRESS: ' + displayLabel, delay: 300, color: 'rgba(232,230,224,0.7)' },
+      { text: '> CHECKING PUBLIC KEY EXPOSURE...', delay: 700, color: 'rgba(232,230,224,0.5)' },
+      { text: '> ANALYSING BALANCE SENSITIVITY...', delay: 1100, color: 'rgba(232,230,224,0.5)' },
       { text: '> CALCULATING QUANTUM READINESS SCORE...', delay: 1500, color: 'rgba(232,230,224,0.5)' },
-      { text: '>',                                   delay: 1900, color: 'rgba(232,230,224,0.3)' },
-      { text: '> SCAN COMPLETE',                     delay: 2100, color: '#FF6B35' },
-      { text: '> ' + '\u2500'.repeat(44),            delay: 2300, color: 'rgba(232,230,224,0.15)' },
-      { text: '> RISK SCORE      ' + score,          delay: 2500, color: scoreColor,    bold: true },
-      { text: '> GRADE           ' + grade,          delay: 2650, color: 'rgba(232,230,224,0.8)' },
-      { text: '> RISK LEVEL      ' + risk,           delay: 2800, color: 'rgba(232,230,224,0.8)' },
-      { text: '> KEY EXPOSURE    ' + exposure,       delay: 2950, color: exposureColor },
-      { text: '> ' + '\u2500'.repeat(44),            delay: 3100, color: 'rgba(232,230,224,0.15)' },
-      { text: '> ADVICE: ' + advice,                 delay: 3250, color: 'rgba(232,230,224,0.6)' },
+      { text: '>', delay: 1900, color: 'rgba(232,230,224,0.3)' },
+      { text: '> SCAN COMPLETE', delay: 2100, color: '#FF6B35' },
+      { text: '> ' + '\u2500'.repeat(44), delay: 2300, color: 'rgba(232,230,224,0.15)' },
+      { text: '> RISK SCORE      ' + score, delay: 2500, color: scoreColor, bold: true },
+      { text: '> GRADE           ' + grade, delay: 2650, color: 'rgba(232,230,224,0.8)' },
+      { text: '> RISK LEVEL      ' + risk, delay: 2800, color: 'rgba(232,230,224,0.8)' },
+      { text: '> KEY EXPOSURE    ' + exposure, delay: 2950, color: exposureColor },
+      { text: '> ' + '\u2500'.repeat(44), delay: 3100, color: 'rgba(232,230,224,0.15)' },
+      { text: '> ADVICE: ' + advice, delay: 3250, color: 'rgba(232,230,224,0.6)' },
     ];
 
     linesContainer.innerHTML = '';

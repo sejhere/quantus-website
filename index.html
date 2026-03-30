@@ -1191,7 +1191,7 @@ h1 {
     <div class="sub">
       <span class="sub-l">Post-quantum cryptography at every layer.</span>
       <span class="sub-l">Clean-slate architecture.</span>
-      <span class="sub-l">Mainnet Q2 2026.</span>
+      <span class="sub-l">Mainnet 2026.</span>
     </div>
     <div class="ctas">
       <a href="#" class="cta-p wallet-cta-link" target="_blank" rel="noopener">Download Wallet</a>
@@ -1713,6 +1713,7 @@ h1 {
         <a href="about.html#contact" class="footer-link">Contact</a>
         <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
         <a href="terms.html" class="footer-link">Terms of Service</a>
+        <a href="https://www.coingecko.com/en/coins/quantus" target="_blank" rel="noopener" class="footer-link">CoinGecko</a>
       </div>
     </div>
     <div class="footer-right-bottom">
@@ -2208,40 +2209,7 @@ probObs.observe(probSection);
 
 buildTicker();
 
-const GLITCH_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&?';
-const mainnetEl = document.getElementById('ticker-mainnet');
-const mainnetReal = 'MAINNET: Q2 2026';
-
-function glitchLoop(el, real) {
-  const staticPart = 'MAINNET: ';
-  const glitchPart = 'Q2 2026';
-  let frame = 0;
-  const totalFrames = 12;
-
-  function nextCycle() {
-    const scrambleInterval = setInterval(() => {
-      const scrambled = glitchPart.split('').map((char) => {
-        if (char === ' ') return ' ';
-        if (frame > totalFrames * 0.65 || Math.random() > 0.45) return char;
-        const rand = GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
-        return Math.random() > 0.5
-          ? '<span style="color:#FF6B35">' + rand + '</span>'
-          : rand;
-      }).join('');
-      el.innerHTML = staticPart + scrambled;
-      frame++;
-      if (frame > totalFrames) {
-        clearInterval(scrambleInterval);
-        el.textContent = real;
-        frame = 0;
-        setTimeout(nextCycle, 500);
-      }
-    }, 30);
-  }
-  nextCycle();
-}
-
-glitchLoop(mainnetEl, mainnetReal);
+document.getElementById('ticker-mainnet').textContent = 'MAINNET: 2026';
 
 if (!sessionStorage.getItem('quantus_loaded')) {
   sessionStorage.setItem('quantus_loaded', '1');
