@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quantum Risk Checker — Quantus Network</title>
+<title>Quantum Risk Checker — Quantus</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
@@ -563,8 +563,8 @@
   <div class="qrc-divider"></div>
   <div class="qrc-section-inner">
     <span class="qrc-eyebrow qrc-animate" data-delay="0">THE QUANTUM DEADLINE</span>
-    <h2 class="qrc-h2 qrc-animate" data-delay="0.15" style="font-size:clamp(28px,3.2vw,48px);">Q-Day is not a theory. It is a timeline.</h2>
-    <p class="qrc-body qrc-animate" data-delay="0.3" style="margin-top:28px;">Q-Day is the moment quantum computers become powerful enough to break the cryptography securing most of today's digital assets. Every outgoing transaction on Ethereum permanently exposes your public key. Once your public key is exposed, a sufficiently powerful quantum computer can derive your private key and drain your wallet without your knowledge.</p>
+    <h2 class="qrc-h2 qrc-animate" data-delay="0.15" style="font-size:clamp(28px,3.2vw,48px);">Q-Day is coming.</h2>
+    <p class="qrc-body qrc-animate" data-delay="0.3" style="margin-top:28px;">Q-Day is the moment quantum computers become powerful enough to break the cryptography securing most of today's digital assets. Once your public key is exposed, a sufficiently powerful quantum computer can derive your private key and drain your wallet without your knowledge.</p>
     <p class="qrc-body qrc-animate" data-delay="0.4" style="margin-top:20px;">The window to act is open. It will not stay that way.</p>
   </div>
 </section>
@@ -596,10 +596,10 @@
   <div class="qrc-divider"></div>
   <div class="qrc-section-inner">
     <span class="qrc-eyebrow qrc-animate" data-delay="0">WHAT TO DO NEXT</span>
-    <h2 class="qrc-h2 qrc-animate" data-delay="0.15" style="max-width:640px;margin-top:16px;">Already know your risk? Here is what to do about it.</h2>
+    <h2 class="qrc-h2 qrc-animate" data-delay="0.15" style="max-width:640px;margin-top:16px;">Got risk? <br>Here's what to do about it.</h2>
     <p class="qrc-body qrc-animate" data-delay="0.3" style="max-width:560px;margin-top:24px;">If your wallet is exposed, the only real solution is moving your assets to a quantum-secure address. The Quantus wallet is built on a chain where every transaction is signed with post-quantum cryptography, meaning your assets are protected not just today, but when quantum computers arrive.</p>
     <a href="#" class="qrc-cta-btn qrc-animate wallet-cta-link" data-delay="0.45" target="_blank" rel="noopener">DOWNLOAD THE QUANTUS WALLET →</a>
-    <span class="qrc-footer-note qrc-animate" data-delay="0.6">The Quantum Risk Checker is built by Quantus Network, the quantum-secure L1 blockchain.</span>
+    <span class="qrc-footer-note qrc-animate" data-delay="0.6">The Quantum Risk Checker is built by Quantus, the quantum-secure L1 blockchain.</span>
   </div>
 </section>
 
@@ -612,7 +612,7 @@
   <div class="footer-left">
     <a href="index.html" class="footer-brand-name">Quantus</a>
     <div class="footer-left-bottom">
-      <span class="footer-copy">© 2026 Quantus Network.</span>
+      <span class="footer-copy">© 2026 Quantus.</span>
       <span class="footer-copy">All rights reserved.</span>
     </div>
   </div>
@@ -757,7 +757,7 @@
         btn.textContent = 'CHECK NOW →';
         btn.disabled = false;
         input.disabled = false;
-        error.textContent = 'Could not resolve ENS name. Please check it is correct or use a 0x address.';
+        error.textContent = 'Could not resolve ENS name. Make sure it is correct or use a 0x address.';
         error.style.display = 'block';
         return;
       }
@@ -782,15 +782,15 @@
     const displayLabel = raw.toLowerCase().endsWith('.eth') ? raw + ' (' + shortAddr + ')' : shortAddr;
 
     const lines = [
-      { text: '> INITIALISING QUANTUM RISK SCAN...', delay: 0, color: 'rgba(232,230,224,0.5)' },
+      { text: '> INITIALIZING QUANTUM RISK SCAN...', delay: 0, color: 'rgba(232,230,224,0.5)' },
       { text: '> ADDRESS: ' + displayLabel, delay: 300, color: 'rgba(232,230,224,0.7)' },
       { text: '> CHECKING PUBLIC KEY EXPOSURE...', delay: 700, color: 'rgba(232,230,224,0.5)' },
-      { text: '> ANALYSING BALANCE SENSITIVITY...', delay: 1100, color: 'rgba(232,230,224,0.5)' },
+      { text: '> ANALYZING BALANCE SENSITIVITY...', delay: 1100, color: 'rgba(232,230,224,0.5)' },
       { text: '> CALCULATING QUANTUM READINESS SCORE...', delay: 1500, color: 'rgba(232,230,224,0.5)' },
       { text: '>', delay: 1900, color: 'rgba(232,230,224,0.3)' },
       { text: '> SCAN COMPLETE', delay: 2100, color: '#FF6B35' },
       { text: '> ' + '\u2500'.repeat(44), delay: 2300, color: 'rgba(232,230,224,0.15)' },
-      { text: '> RISK SCORE      ' + score, delay: 2500, color: scoreColor, bold: true },
+      { text: '> READINESS SCORE  ' + score, delay: 2500, color: scoreColor, bold: true },
       { text: '> GRADE           ' + grade, delay: 2650, color: 'rgba(232,230,224,0.8)' },
       { text: '> RISK LEVEL      ' + risk, delay: 2800, color: 'rgba(232,230,224,0.8)' },
       { text: '> KEY EXPOSURE    ' + exposure, delay: 2950, color: exposureColor },
