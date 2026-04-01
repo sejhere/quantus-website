@@ -347,11 +347,12 @@ nav.scrolled { background: rgba(14,14,14,0.95); backdrop-filter: blur(12px); }
   z-index: 2;
 }
 .footer-brand-name {
-  font-family: 'Geist Mono', monospace;
+  font-family: 'Geist', sans-serif;
   font-size: clamp(48px, 6vw, 80px);
-  font-weight: 300;
-  color: rgba(232,230,224,0.25);
-  letter-spacing: 0.05em;
+  font-weight: 500;
+  color: rgba(232,230,224,0.12);
+  letter-spacing: -0.02em;
+  word-spacing: normal;
   text-decoration: none;
   display: block;
   line-height: 1;

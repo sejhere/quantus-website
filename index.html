@@ -170,12 +170,8 @@ h1 {
   font-family: 'Geist Mono', monospace;
   font-size: 12px; font-weight: 500; color: var(--content);
 }
-.t-val.live { color: var(--flare); }
-.tdot {
-  width: 4px; height: 4px;
-  background: #4ade80; border-radius: 50%;
-  animation: pd 2s ease infinite; flex-shrink: 0;
-}
+.t-val.live { color: rgba(232,230,224,0.9); }
+#ticker-mainnet { color: rgba(232,230,224,0.4); }
 /* ═══════════════════════════
    PROBLEM SECTION
 ═══════════════════════════ */
@@ -545,12 +541,12 @@ h1 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   margin: 48px 52px 0;
-  border-top: 1px solid rgba(232,230,224,0.08);
-  border-left: 1px solid rgba(232,230,224,0.08);
+  border-top: 1px solid rgba(232,230,224,0.3);
+  border-left: 1px solid rgba(232,230,224,0.3);
 }
 .community-panel {
-  border-right: 1px solid rgba(232,230,224,0.08);
-  border-bottom: 1px solid rgba(232,230,224,0.08);
+  border-right: 1px solid rgba(232,230,224,0.3);
+  border-bottom: 1px solid rgba(232,230,224,0.3);
   padding: 40px 36px;
   display: flex;
   flex-direction: column;
@@ -592,7 +588,7 @@ h1 {
   font-size: 12px; letter-spacing: 0.1em;
   text-transform: uppercase;
   text-decoration: none;
-  color: rgba(232,230,224,0.5);
+  color: rgba(232,230,224,0.9);
   display: inline-block;
   transition: border-color 0.2s, color 0.2s;
 }
@@ -1386,8 +1382,8 @@ h1 {
             Public Beta Live
           </div>
           <div class="eco-dl-tags">
-            <span class="eco-dl-tag">App Store</span>
-            <span class="eco-dl-tag">Google Play</span>
+            <a href="https://apps.apple.com/us/app/quantus/id6747967405" target="_blank" rel="noopener" class="eco-dl-tag">App Store</a>
+            <a href="https://play.google.com/store/apps/details?id=com.quantus.wallet" target="_blank" rel="noopener" class="eco-dl-tag">Google Play</a>
           </div>
         </div>
       </div>
@@ -1454,7 +1450,7 @@ h1 {
             247 Active Validators
           </div>
           <div class="eco-dl-tags">
-            <a href="#" class="eco-dl-tag">View Explorer</a>
+            <a href="https://explorer.quantus.com/" target="_blank" rel="noopener" class="eco-dl-tag">View Explorer</a>
           </div>
         </div>
       </div>
@@ -1677,7 +1673,7 @@ h1 {
   <div style="position:absolute;top:-80px;right:-80px;width:450px;height:450px;background:radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%);pointer-events:none;z-index:0;"></div>
 
   <div class="footer-left">
-    <a href="index.html" class="footer-brand-name">QUANTUS</a>
+    <a href="index.html" class="footer-brand-name">Quantus</a>
     <div class="footer-left-bottom">
       <span class="footer-copy">© 2026 Quantus Network.</span>
       <span class="footer-copy">All rights reserved.</span>
@@ -1911,8 +1907,7 @@ function buildTicker(){
       const el = document.createElement('div');
       el.className = 't-item';
       const idAttr = (mainnet && copyIdx === 0) ? ' id="ticker-mainnet"' : '';
-      el.innerHTML = `${live?'<div class="tdot"></div>':''}
-        ${lbl ? '<span class="t-lbl">'+lbl+'</span>' : ''}
+      el.innerHTML = `${lbl ? '<span class="t-lbl">'+lbl+'</span>' : ''}
         <span class="t-val${live?' live':''}"${idAttr}>${val}</span>`;
       track.appendChild(el);
     });
@@ -2206,7 +2201,7 @@ probObs.observe(probSection);
 
 buildTicker();
 
-document.getElementById('ticker-mainnet').textContent = 'MAINNET: 2026';
+document.getElementById('ticker-mainnet').innerHTML = '<span style="color:rgba(232,230,224,0.4);">MAINNET: </span><span style="color:#ffffff;">2026</span>';
 
 if (!sessionStorage.getItem('quantus_loaded')) {
   sessionStorage.setItem('quantus_loaded', '1');
